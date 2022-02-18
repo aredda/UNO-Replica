@@ -21,6 +21,27 @@ public class CardTemplateAnimator
     [Header("Change Card Color Animation")]
     public float changeColorSpeed = 5f;
 
+    private Dictionary<string, List<IEnumerator>> routinePool = new Dictionary<string, List<IEnumerator>> ();
+
+    public void AddRoutine(string name, IEnumerator routine)
+    {
+        if(!routinePool.ContainsKey(name))
+            this.routinePool.Add(name, new List<IEnumerator>());
+        
+        this.routinePool[name].Add(routine);
+    }
+
+    public void StopAllRoutines(string name)
+    {
+        if(!routinePool.ContainsKey(name))
+            return;
+        
+        foreach(IEnumerator routine in this.routinePool[name])
+            StopCoroutine(routine);
+        
+        routinePool[name].Clear();
+    }
+
     public void PlayCard(CardTemplate template, System.Action onFinish)
     {
         StartCoroutine(RoutinePlayCard(template, onFinish));
@@ -122,7 +143,14 @@ public class CardTemplateAnimator
 
     public void ChangeBoardColor(Material boardMaterial, Color targetColor, float speed, System.Action onFinish = null)
     {
-        StartCoroutine(RoutineChangeColor(boardMaterial, targetColor, speed, onFinish));
+        // Store routine
+        IEnumerator routine = RoutineChangeColor(boardMaterial, targetColor, speed, onFinish);
+        // Stop all routines
+        StopAllRoutines("boardColor");
+        // Add routine
+        AddRoutine("boardColor", routine);
+        // Start routine
+        StartCoroutine(routine);
     }
 
     IEnumerator RoutineChangeColor(Material material, Color targetColor, float speed, System.Action onFinish = null)
