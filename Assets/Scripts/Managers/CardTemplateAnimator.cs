@@ -21,6 +21,8 @@ public class CardTemplateAnimator
     [Header("Change Card Color Animation")]
     public float changeColorSpeed = 5f;
 
+    # region Routine Pooling
+
     private Dictionary<string, List<IEnumerator>> routinePool = new Dictionary<string, List<IEnumerator>> ();
 
     public void AddRoutine(string name, IEnumerator routine)
@@ -41,6 +43,8 @@ public class CardTemplateAnimator
         
         routinePool[name].Clear();
     }
+
+    #endregion
 
     public void PlayCard(CardTemplate template, System.Action onFinish)
     {
