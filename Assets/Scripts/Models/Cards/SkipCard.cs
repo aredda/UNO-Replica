@@ -8,8 +8,11 @@ public class SkipCard
         return $"{color.ToString()}_Skip";
     }
 
-    public override bool IsPlayable(Card boardCard)
+    public override bool IsPlayable(Card boardCard, bool isDrawImposed = false)
     {
+        if(isDrawImposed)
+            return false;
+
         if(base.IsPlayable(boardCard))
             return base.IsPlayable(boardCard);
         

@@ -18,6 +18,9 @@ public class DeckController
         // Check if he can play
         if(!master.turn.CanPlay())
             return;
+        // Check if draw is not imposed on players
+        if(master.isDrawImposed)
+            return;
         // Deal card to the player
         master.director.deckDealer.DealCard(master.turn, delegate() {
             // Update the playable cards

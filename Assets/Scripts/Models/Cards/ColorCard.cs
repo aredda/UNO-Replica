@@ -3,7 +3,7 @@ public abstract class ColorCard
 {
     public ECardColor color;
 
-    public override bool IsPlayable(Card boardCard)
+    public override bool IsPlayable(Card boardCard, bool isDrawImposed = false)
     {
         if(boardCard is ColorCard)
             return ((ColorCard) boardCard).color == color;

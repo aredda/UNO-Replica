@@ -67,14 +67,19 @@ public class DeckDealer
     public void DealCards(List<PlayerController> players, System.Action onFinishDealing = null)
     {
         foreach(PlayerController player in players)
-            player.ReceiveCard(this.deckQueue.Dequeue(), ActionRecursiveCardDeal(player, onFinishDealing));
+            DealCards(player, startingHand, onFinishDealing);
     }
 
-    public System.Action ActionRecursiveCardDeal(PlayerController player, System.Action onFinishDealing)
+    public void DealCards(PlayerController player, int number, System.Action onFinish = null)
+    {
+        player.ReceiveCard(deckQueue.Dequeue(), ActionRecursiveCardDeal(player, number, onFinish));
+    }
+
+    public System.Action ActionRecursiveCardDeal(PlayerController player, int targetCardTotal, System.Action onFinishDealing)
     {
         return delegate() 
         {
-            if(player.hand.cards.Count == startingHand)
+            if(player.hand.cards.Count == targetCardTotal)
             {
                 if(onFinishDealing != null)
                     onFinishDealing.Invoke();
@@ -82,7 +87,7 @@ public class DeckDealer
                 return;
             }
 
-            player.ReceiveCard(this.deckQueue.Dequeue(), ActionRecursiveCardDeal(player, onFinishDealing));
+            player.ReceiveCard(this.deckQueue.Dequeue(), ActionRecursiveCardDeal(player, targetCardTotal, onFinishDealing));
         };
     }
 

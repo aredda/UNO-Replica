@@ -13,7 +13,7 @@ public abstract class WildCard
         return "Wild";
     }
 
-    public override bool IsPlayable(Card boardCard)
+    public override bool IsPlayable(Card boardCard, bool isDrawImposed = false)
     {
         return true;
     }

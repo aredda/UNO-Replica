@@ -96,13 +96,15 @@ public class PlayerHand
         {
             // Reset color counters
             ResetColorCounters();
+            // Check if playable
+            bool playable = template.card.IsPlayable(master.boardCardTemplate.card, master.isDrawImposed);
             // Mark this card template as playable
-            template.MarkAs(template.card.IsPlayable(master.boardCardTemplate.card));
+            template.MarkAs(playable);
             // Count color
             if(template.card is ColorCard)
                 colorCounters[((ColorCard) template.card).color]++;
-
-            if(template.card.IsPlayable(master.boardCardTemplate.card))
+            // Add to the list
+            if(playable)
                 playables.Add(template);
         }
 

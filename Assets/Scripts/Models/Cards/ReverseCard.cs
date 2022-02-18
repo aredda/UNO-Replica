@@ -8,8 +8,11 @@ public class ReverseCard
         return $"{color.ToString()}_Reverse";
     }
 
-    public override bool IsPlayable(Card boardCard)
+    public override bool IsPlayable(Card boardCard, bool isDrawImposed = false)
     {
+        if(isDrawImposed)
+            return false;
+
         if(base.IsPlayable(boardCard))
             return base.IsPlayable(boardCard);
         

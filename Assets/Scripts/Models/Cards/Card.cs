@@ -11,5 +11,5 @@ public abstract class Card
     {
         return this.GetMaterialName();
     }
-    public abstract bool IsPlayable(Card boardCard);
+    public abstract bool IsPlayable(Card boardCard, bool isDrawImposed = false);
 }

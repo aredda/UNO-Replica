@@ -1,4 +1,7 @@
 public enum PlayerState
 {
-    Ready, DecidingMove, DecidingColor, Played
+    Ready,
+    DecidingMove,
+    DecidingColor,
+    Played
 }

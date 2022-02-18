@@ -7,7 +7,7 @@ public abstract class EffectCard
     - Skip Next Player Turn
     - Reverse Turn Direction
     */
-    public override bool IsPlayable(Card boardCard)
+    public override bool IsPlayable(Card boardCard, bool isDrawImposed = false)
     {
         return base.IsPlayable(boardCard);
     }

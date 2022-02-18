@@ -27,6 +27,10 @@ public class GameMaster
     public Transform deck;
     public BoardController board;
 
+    [Header("Draw State")]
+    public bool isDrawImposed = false;
+    public int drawTotal = 0;
+
     public void PreparePlayers()
     {
         for(int i=0; i < totalPlayers; i++)
@@ -81,9 +85,34 @@ public class GameMaster
         yield return new WaitForSeconds(1f);
         // Reset step
         turnStep = 1;
-        // If the next player is a bot
-        if(this.turn.isBot)
-            this.turn.bot.Decide();
+        // Draw action
+        System.Action imposedDrawAction = delegate()
+        {
+            director.deckDealer.DealCards(turn, turn.hand.cards.Count + drawTotal, delegate() 
+            {
+                // Exit drawing mode
+                ResetDrawing();
+                // End turn
+                EndTurn();
+            });
+        };
+        // If draw-stacking is disabled and drawing is imposed
+        if(!rules.enableDrawStacking && isDrawImposed)
+        {
+            // Disable his ability to play
+            turn.SetCanPlay(false);
+            // Make him draw cards
+            imposedDrawAction.Invoke();
+        }
+        // If draw stacking is allowed & this player has no playable cards
+        else if(rules.enableDrawStacking && isDrawImposed && turn.hand.FetchPlayableCards().Count == 0)
+            imposedDrawAction.Invoke();
+        else
+        {
+            // If the next player is a bot
+            if(this.turn.isBot)
+                this.turn.bot.Decide();
+        }
     }
 
     public PlayerController GetNextPlayer(int step = 1)
@@ -109,5 +138,17 @@ public class GameMaster
         ECardColor color = template.card is ColorCard ? ((ColorCard) template.card).color : ((WildCard) template.card).chosenColor;
         // Change board color
         this.board.Change(color);
+    }
+
+    public void ImposeDrawing(int cardsToDraw = 2)
+    {
+        this.isDrawImposed = true;
+        this.drawTotal += cardsToDraw;
+    }
+
+    public void ResetDrawing()
+    {
+        this.isDrawImposed = false;
+        this.drawTotal = 0;
     }
 }
