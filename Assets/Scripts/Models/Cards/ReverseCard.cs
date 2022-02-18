@@ -19,7 +19,7 @@ public class ReverseCard
     public override void Activate(CardTemplate template, Action onFinish = null)
     {
         // Reverse turn direction
-        template.hand.master.turnDirection *= -1;
+        template.hand.master.ReverseTurnDirection();
         // Call base activation
         base.Activate(template, onFinish);
     }

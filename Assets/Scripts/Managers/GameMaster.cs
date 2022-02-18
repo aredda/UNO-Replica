@@ -47,6 +47,14 @@ public class GameMaster
     public void DisplayBoardCard()
     {
         boardCardTemplate.SetCard(director.deckDealer.boardCard);
+        // Change board card
+        ChangeBoardCard(boardCardTemplate);
+    }
+
+    public void ReverseTurnDirection()
+    {
+        this.turnDirection *= -1;
+        this.board.ReverseArrows();
     }
 
     public void PassTurn(PlayerController player)
@@ -68,7 +76,7 @@ public class GameMaster
     IEnumerator RoutineEndTurn()
     {
         // Pass turn to the next player
-        PassTurn(GetNextPlayer());
+        PassTurn(GetNextPlayer(turnStep));
         // Wait
         yield return new WaitForSeconds(1f);
         // Reset step
@@ -78,11 +86,11 @@ public class GameMaster
             this.turn.bot.Decide();
     }
 
-    public PlayerController GetNextPlayer()
+    public PlayerController GetNextPlayer(int step = 1)
     {
         int turnIndex = players.IndexOf(turn);
         
-        for(int i=0; i < turnStep; i++)
+        for(int i=0; i < step; i++)
         {
             if(turnDirection > 0)
                 turnIndex = turnIndex == players.Count - 1 ? 0 : turnIndex + 1;
