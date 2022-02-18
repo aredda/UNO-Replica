@@ -6,6 +6,7 @@ public class UIManager
     : Manager
 {
     [Header("Essential UI Elements")]
-    public UIMenuColorPicker colorPicker;
-    public UIMenuCardActionPicker cardActionPicker;
+    public UIMenuColorPicker menuColorPicker;
+    public UIMenuCardActionPicker menuCardActionPicker;
+    public UILabelTotalDraw labelDrawTotal;
 }

@@ -142,13 +142,19 @@ public class GameMaster
 
     public void ImposeDrawing(int cardsToDraw = 2)
     {
+        // Activate drawing mode
         this.isDrawImposed = true;
         this.drawTotal += cardsToDraw;
+        // Update UI label
+        this.director.uiManager.labelDrawTotal.Show(this.drawTotal);
     }
 
     public void ResetDrawing()
     {
+        // Disable drawing mode
         this.isDrawImposed = false;
         this.drawTotal = 0;
+        // Hide label
+        director.uiManager.labelDrawTotal.Hide();
     }
 }

@@ -92,6 +92,6 @@ public class CardTemplate
             // End Turn Logic
             hand.master.EndTurn();
         };
-        ManagerDirector.director.uiManager.cardActionPicker.Show(this, actionPlay, actionEndTurn);
+        ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionEndTurn);
     }
 }

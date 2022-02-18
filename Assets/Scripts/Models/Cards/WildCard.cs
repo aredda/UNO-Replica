@@ -36,7 +36,7 @@ public abstract class WildCard
             // Change the player's state
             template.hand.player.state = PlayerState.DecidingColor;
             // Show menu
-            ManagerDirector.director.uiManager.colorPicker.Show(template, onFinish);
+            ManagerDirector.director.uiManager.menuColorPicker.Show(template, onFinish);
         }
     }
 }
