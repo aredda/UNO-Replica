@@ -15,6 +15,7 @@ public class GameMaster
     [Header("Turn Settings")]
     public PlayerController turn;
     public int turnDirection = 1; // 1: Clockwise | -1: Counterclockwise
+    public int turnStep = 1;
 
     [Header("Player Settings")]
     public int totalPlayers = 4;
@@ -66,9 +67,12 @@ public class GameMaster
 
     IEnumerator RoutineEndTurn()
     {
-        yield return new WaitForSeconds(1f);
         // Pass turn to the next player
         PassTurn(GetNextPlayer());
+        // Wait
+        yield return new WaitForSeconds(1f);
+        // Reset step
+        turnStep = 1;
         // If the next player is a bot
         if(this.turn.isBot)
             this.turn.bot.Decide();
@@ -77,11 +81,16 @@ public class GameMaster
     public PlayerController GetNextPlayer()
     {
         int turnIndex = players.IndexOf(turn);
-
-        if(turnDirection == 1)
-            return turnIndex == players.Count - 1 ? players.First() : players[turnIndex + 1];
         
-        return turnIndex == 0 ? players.Last() : players[turnIndex - 1];
+        for(int i=0; i < turnStep; i++)
+        {
+            if(turnDirection > 0)
+                turnIndex = turnIndex == players.Count - 1 ? 0 : turnIndex + 1;
+            else
+                turnIndex = turnIndex == 0 ? players.Count - 1 : turnIndex - 1;
+        }
+
+        return players[turnIndex];
     }
 
     public void ChangeBoardCard(CardTemplate template)

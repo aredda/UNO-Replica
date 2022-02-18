@@ -1,3 +1,5 @@
+using System;
+
 public class SkipCard 
     : EffectCard
 {
@@ -12,5 +14,12 @@ public class SkipCard
             return base.IsPlayable(boardCard);
         
         return boardCard is SkipCard;
+    }
+
+    public override void Activate(CardTemplate template, Action onFinish = null)
+    {
+        template.hand.master.turnStep ++;
+
+        base.Activate(template, onFinish);
     }
 }

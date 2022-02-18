@@ -22,8 +22,8 @@ public class DeckController
         master.director.deckDealer.DealCard(master.turn, delegate() {
             // Update the playable cards
             int playableCardsCount = master.turn.hand.FetchPlayableCards().Count;
-            // End turn if there's nothing to play
-            if(playableCardsCount == 0 && !master.rules.enableDrawQuickPlay)
+            // End turn if quick play is disabled
+            if(!master.rules.enableDrawQuickPlay)
                 master.EndTurn();
         });
     }
