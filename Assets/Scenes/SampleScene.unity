@@ -330,7 +330,7 @@ MonoBehaviour:
   targetPosition: {x: 1, y: 0.1, z: 0}
   targetRotation: {x: 90, y: 0, z: 0}
   targetScale: {x: 1.5, y: 2, z: 1}
-  addSpeed: 10
+  addSpeed: 5
   handRotation: {x: 45, y: 0, z: 0}
   handScale: {x: 0.75, y: 1, z: 1}
   changeColorSpeed: 10

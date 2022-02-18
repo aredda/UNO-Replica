@@ -18,7 +18,6 @@ public class UILabelTotalDraw
         this.label.text = $"+{total}";
         // Update font size
         this.label.fontSize = fontSize + total * 2;
-        Debug.Log(this.label.fontSize);
         // Show
         this.gameObject.SetActive(true);
     }
