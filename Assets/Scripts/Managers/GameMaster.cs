@@ -64,12 +64,16 @@ public class GameMaster
     public void PassTurn(PlayerController player)
     {
         turn = player;
-
+        // Revoke the ability to play from all players
         foreach(var p in players)
             if(p != player)
                 p.SetCanPlay(false);
-
+        // Grant the ability to play to the current turn
         player.SetCanPlay();
+        // Update hand count
+        director.uiManager.UpdatePlayerCards();
+        // Highlight the turn
+        director.uiManager.HighlightPlayerCard(turn);
     }
 
     public void EndTurn()

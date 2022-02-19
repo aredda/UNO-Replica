@@ -174,4 +174,27 @@ public class CardTemplateAnimator
         if(onFinish != null)
             onFinish.Invoke();
     }
+
+    public void ChangePlayerCardScale(Transform transform, Vector3 targetScale, System.Action onFinish = null, float speed = 5f)
+    {
+        StartCoroutine(RoutineChangeScale(transform, targetScale, onFinish, speed));
+    }
+
+    IEnumerator RoutineChangeScale(Transform transform, Vector3 targetScale, System.Action onFinish = null, float speed = 5f)
+    {
+        float timeElapsed = 0f;
+        float distance = Vector3.Distance(transform.localScale, targetScale);
+        do
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, timeElapsed / speed);
+            distance = Vector3.Distance(transform.localScale, targetScale);
+
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        while(distance > 0.001f);
+        // call back
+        if(onFinish != null)
+            onFinish.Invoke();
+    }
 }

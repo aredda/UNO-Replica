@@ -36,6 +36,9 @@ public class ManagerDirector
         // Prepare Players
         gameMaster.PreparePlayers();
 
+        // Prepare their UI cards
+        uiManager.PreparePlayerCards(gameMaster.players);
+
         // Decide the board card
         deckDealer.SetBoardCard();
 
