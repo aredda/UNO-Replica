@@ -5,6 +5,9 @@ using UnityEngine;
 public class CardTemplateAnimator 
     : Manager
 {
+    [Header("Time Settings")]
+    public float androidDeltaTime = 0.075f;
+
     [Header("Play Card Animation")]
     public float liftSpeed = 8f;
     public float liftOffset = 1.75f;
@@ -20,6 +23,21 @@ public class CardTemplateAnimator
 
     [Header("Change Card Color Animation")]
     public float changeColorSpeed = 5f;
+
+    #region Delta Time Settings
+
+    public float DeltaTime 
+    {
+        get
+        {
+            if(Application.platform == RuntimePlatform.Android)
+                return androidDeltaTime;
+            
+            return Time.deltaTime;
+        }
+    }
+
+    #endregion
 
     # region Routine Pooling
 
@@ -77,7 +95,7 @@ public class CardTemplateAnimator
             card_transform.localScale = Vector3.Lerp(card_transform.localScale, targetScale, elapsedTime / setSpeed);
 
             distance = Vector3.Distance(card_transform.position, targetPosition);
-            elapsedTime += Time.deltaTime;
+            elapsedTime += DeltaTime;
 
             yield return new WaitForEndOfFrame();
         }
@@ -130,7 +148,7 @@ public class CardTemplateAnimator
             card_transform.localScale = Vector3.Lerp(card_transform.localScale, handScale, elapsedTime / setSpeed);
 
             distance = Vector3.Distance(card_transform.position, handPosition);
-            elapsedTime += Time.deltaTime;
+            elapsedTime += DeltaTime;
 
             yield return new WaitForEndOfFrame();
         }
@@ -163,7 +181,7 @@ public class CardTemplateAnimator
         do
         {
             material.color = Color.Lerp(material.color, targetColor, timeElapsed / speed);
-            timeElapsed += Time.deltaTime;
+            timeElapsed += DeltaTime;
             yield return new WaitForEndOfFrame();
         }
         while(!(Mathf.Approximately(material.color.r, targetColor.r) 
@@ -189,12 +207,17 @@ public class CardTemplateAnimator
             transform.localScale = Vector3.Lerp(transform.localScale, targetScale, timeElapsed / speed);
             distance = Vector3.Distance(transform.localScale, targetScale);
 
-            timeElapsed += Time.deltaTime;
+            timeElapsed += DeltaTime;
             yield return new WaitForEndOfFrame();
         }
         while(distance > 0.001f);
         // call back
         if(onFinish != null)
             onFinish.Invoke();
+    }
+
+    public void SetDeltaTime(string deltaTime)
+    {
+        androidDeltaTime = float.Parse(deltaTime);
     }
 }

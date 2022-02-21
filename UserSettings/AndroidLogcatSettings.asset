@@ -1,13 +1,44 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "9be1d8e6",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "9be1d8e6",
+        "name": "com.AreddasJams.JG",
+        "processId": 20823,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 6828,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 10703,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 12598,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 16165,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 20823,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,9 +72,20 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },
