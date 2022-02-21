@@ -30,11 +30,9 @@ public class PlayerHand
 
     public CardTemplate CreateCardTemplate(Card card)
     {
-        // TODO: Pooling should be implemented here instead
-        CardTemplate template = Instantiate(ManagerDirector.director.prefabManager.cardTemplate, parent);
+        CardTemplate template = ManagerDirector.director.poolingManager.GetTemplate(parent);
         template.SetCard(card);
         template.SetHand(this);
-        template.Disable();
         
         return template;
     }
@@ -123,11 +121,12 @@ public class PlayerHand
             // Return the card to bottom of the deck
             ManagerDirector.director.deckDealer.deckQueue.Enqueue(template.card);
             cards.Remove(template.card);
-            // TODO: Pooling Logic Should Be Implemented Here
+            // Remove template from this hand, return it to the pool
             cardTemplates.Remove(template);
+            master.director.poolingManager.SaveTemplate(template);
             // Update Hand
             OrganizeCardTemplates();
-            // TODO: End Turn
+            // End Turn
             master.EndTurn();
         });
     }

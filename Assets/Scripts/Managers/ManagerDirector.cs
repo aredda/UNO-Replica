@@ -14,6 +14,7 @@ public class ManagerDirector
     public PrefabManager prefabManager;
     public CardTemplateAnimator cardAnimator;
     public UIManager uiManager;
+    public PoolingManager poolingManager;
 
     void Awake()
     {
