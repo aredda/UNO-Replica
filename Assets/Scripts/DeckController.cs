@@ -12,6 +12,9 @@ public class DeckController
         // Check for turn object reference
         if(master.turn == null)
             throw new System.Exception("DeckController.OnMouseDown#Exception: Can't deal a card because the turn is not set");
+        // Check if there's auto draw
+        if(master.rules.enableAutoDraw)
+            return;
         // Check if it's the player
         if(!master.turn.isLocalPlayer)
             return;

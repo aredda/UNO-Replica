@@ -1949,6 +1949,7 @@ MonoBehaviour:
     enableWildDrawChallenge: 0
     enableOneCardCall: 1
     enableDrawQuickPlay: 0
+    enableAutoDraw: 1
   handPositions: {fileID: 1961513287}
   turn: {fileID: 0}
   turnDirection: 1
@@ -3616,6 +3617,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696493424741848829, guid: 5ec0cf97f4f1aac4592486c64a773f20,
+        type: 3}
+      propertyPath: displayOnly
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ec0cf97f4f1aac4592486c64a773f20, type: 3}

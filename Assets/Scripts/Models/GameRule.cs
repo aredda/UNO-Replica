@@ -17,4 +17,7 @@ public class GameRule
 
     [Tooltip("A player can play the drawn card")]
     public bool enableDrawQuickPlay = true;
+
+    [Tooltip("A player is automatically is dealt a card when he has nothing to play")]
+    public bool enableAutoDraw = true;
 }

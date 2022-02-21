@@ -38,21 +38,11 @@ public class BotController
         GameMaster master = ManagerDirector.director.gameMaster;
         // First of all, the bot should know what's playable in its hand
         List<CardTemplate> playableCards = this.player.hand.FetchPlayableCards();
-        // If there are no playable cards, the bot should draw
-        if(playableCards.Count == 0)
-        {
-            director.deckDealer.DealCard(this.player);
-            // Check for the quick-play rule
-            if(!master.rules.enableDrawQuickPlay)
-                return null;
-            // Update playable cards
-            playableCards = this.player.hand.FetchPlayableCards();   
-        }
-        List<CardTemplate> numberCards = this.player.hand.GetCardsByType<NumberCard> (playableCards);
         // If there are no playable cards this time, end turn
         if(playableCards.Count == 0)
             return null;
-        
+        // Retrieve number cards
+        List<CardTemplate> numberCards = this.player.hand.GetCardsByType<NumberCard> (playableCards);
         #region Next player is almost out of cards in hand
         // Check if the next player to play has less than 3 cards
         if(master.GetNextPlayer().hand.cards.Count < 3)

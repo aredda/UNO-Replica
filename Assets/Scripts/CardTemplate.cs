@@ -5,6 +5,7 @@ using UnityEngine;
 public class CardTemplate 
     : MonoBehaviour
 {
+    public bool displayOnly = false;
     public PlayerHand hand;
 
     [Header("Graphics")]
@@ -63,6 +64,10 @@ public class CardTemplate
 
     void OnMouseDown()
     {
+        // It means this template is just for show (example: board card template is not interactive)
+        if(displayOnly)
+            return;
+
         if(hand == null)
             throw new System.Exception("CardTemplate.OnMouseDown#Exception: [PlayerHand] reference is not set");
 

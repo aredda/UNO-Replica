@@ -113,8 +113,16 @@ public class GameMaster
             imposedDrawAction.Invoke();
         else
         {
+            // If there are no playable cards, the bot should draw
+            if(turn.hand.FetchPlayableCards().Count == 0)
+            {
+                director.deckDealer.DealCard(turn);
+                // Check for the quick-play rule
+                if(!rules.enableDrawQuickPlay)
+                    EndTurn();
+            }
             // If the next player is a bot
-            if(this.turn.isBot)
+            else if(this.turn.isBot)
                 this.turn.bot.Decide();
         }
     }
