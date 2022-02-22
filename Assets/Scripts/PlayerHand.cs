@@ -16,6 +16,7 @@ public class PlayerHand
     public Transform parent;
     public List<Card> cards;
     public List<CardTemplate> cardTemplates;
+    public float zIndex = 0.005f;
     public GameMaster master 
     {
         get { return ManagerDirector.director.gameMaster; }
@@ -52,14 +53,16 @@ public class PlayerHand
             throw new System.Exception("PlayerHand.OrganizeCardTemplates#Exception: Cannot organize an empty hand");
 
         int cards_count = cards.Count;
-        float card_width = 0.75f;
+        float card_width = ComputeCardWidth(cards_count);
         float full_hand_width = card_width * cards_count;
         float x0 = (full_hand_width / 2) - (card_width / 2);
         int index = 0;
 
         foreach(var template in cardTemplates)
         {
-            template.transform.localPosition = new Vector3(-x0 + index * card_width, 0, -index * 0.001f);
+            // Move card animation
+            master.director.cardAnimator.MoveCard(template.transform, new Vector3(-x0 + index * card_width, 0, -index * zIndex));
+
             index++;
         }
     }
@@ -67,7 +70,7 @@ public class PlayerHand
     public Vector3 GetDrawnCardFuturePosition()
     {
         int cards_count = cards.Count;
-        float card_width = 0.75f;
+        float card_width = ComputeCardWidth(cards_count);
         float full_hand_width = card_width * cards_count;
         float x0 = (full_hand_width / 2) - (card_width / 2);
         int index = 0;
@@ -75,11 +78,13 @@ public class PlayerHand
         Vector3 lastTemplatePosition = parent.position;
         foreach(var template in cardTemplates)
         {
-            lastTemplatePosition = new Vector3(-x0 + index * card_width, 0, -index * 0.001f);
+            lastTemplatePosition = new Vector3(-x0 + index * card_width, 0, -index * zIndex);
             if(index == cards_count - 1)
                 break;
 
-            template.transform.localPosition = new Vector3(-x0 + index * card_width, 0, -index * 0.001f);
+            // Move card animation
+            master.director.cardAnimator.MoveCard(template.transform, new Vector3(-x0 + index * card_width, 0, -index * zIndex));
+
             index++;
         }
 
@@ -131,6 +136,13 @@ public class PlayerHand
         });
     }
 
+    public float ComputeCardWidth(int handCount)
+    {
+        return handCount < 9 ? 0.75f : 0.75f - (0.75f / (handCount / 2));
+    }
+
+    #region Data Analytics
+
     public void InitializeColorCounters()
     {
         foreach(ECardColor color in System.Enum.GetValues(typeof(ECardColor)))
@@ -179,4 +191,6 @@ public class PlayerHand
 
         return dominantColor;
     }
+
+    #endregion
 }

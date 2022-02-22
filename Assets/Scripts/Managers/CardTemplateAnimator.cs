@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardTemplateAnimator 
@@ -24,6 +25,9 @@ public class CardTemplateAnimator
     [Header("Change Card Color Animation")]
     public float changeColorSpeed = 5f;
 
+    [Header("Card Sort Animation")]
+    public float sortCardSpeed = 4f;
+
     #region Delta Time Settings
 
     public float DeltaTime 
@@ -42,6 +46,7 @@ public class CardTemplateAnimator
     # region Routine Pooling
 
     private Dictionary<string, List<IEnumerator>> routinePool = new Dictionary<string, List<IEnumerator>> ();
+    private List<RoutineDetail> detailedRoutinePool = new List<RoutineDetail> ();
 
     public void AddRoutine(string name, IEnumerator routine)
     {
@@ -49,6 +54,15 @@ public class CardTemplateAnimator
             this.routinePool.Add(name, new List<IEnumerator>());
         
         this.routinePool[name].Add(routine);
+    }
+
+    public void AddRoutine(string name, GameObject gameObject, IEnumerator routine)
+    {
+        this.detailedRoutinePool.Add(new RoutineDetail() {
+            routineName = name,
+            gameObject = gameObject,
+            enumerator = routine
+        });
     }
 
     public void StopAllRoutines(string name)
@@ -62,6 +76,15 @@ public class CardTemplateAnimator
         routinePool[name].Clear();
     }
 
+    public void StopAllRoutines(string name, GameObject gameObject)
+    {
+        // Stop all routines
+        foreach(RoutineDetail detail in detailedRoutinePool.Where(r => r.Concerns(gameObject) && r.Matches(name)))
+            StopCoroutine(detail.enumerator);
+        // Remove from list
+        detailedRoutinePool.RemoveAll(r => r.Concerns(gameObject) && r.Matches(name));
+    }
+
     #endregion
 
     public void PlayCard(CardTemplate template, System.Action onFinish)
@@ -71,6 +94,7 @@ public class CardTemplateAnimator
 
     IEnumerator RoutinePlayCard(CardTemplate template, System.Action onFinish)
     {
+        // Retrieve template's transform
         Transform card_transform = template.transform;
         // Lift Animation
         Vector3 start_position = card_transform.position;
@@ -219,5 +243,30 @@ public class CardTemplateAnimator
     public void SetDeltaTime(string deltaTime)
     {
         androidDeltaTime = float.Parse(deltaTime);
+    }
+
+    public void MoveCard(Transform transform, Vector3 target, System.Action onFinish = null)
+    {
+        IEnumerator routine = RoutineMoveCard(transform, target, onFinish, sortCardSpeed);
+        // Stop move routines that concern this object
+        StopAllRoutines("moveCard", transform.gameObject);
+        // Add routine
+        AddRoutine("moveCard", transform.gameObject, routine);
+        // Start routine
+        StartCoroutine(routine);
+    }
+
+    IEnumerator RoutineMoveCard(Transform transform, Vector3 target, System.Action onFinish = null, float speed = 3f)
+    {
+        // Move Animation
+        float distance = Vector3.Distance(transform.localPosition, target);
+        do
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, target, speed * Time.deltaTime);
+            distance = Vector3.Distance(transform.localPosition, target);
+
+            yield return new WaitForEndOfFrame();
+        }
+        while(distance > 0.005f);
     }
 }

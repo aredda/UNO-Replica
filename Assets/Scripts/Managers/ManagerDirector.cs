@@ -15,6 +15,7 @@ public class ManagerDirector
     public CardTemplateAnimator cardAnimator;
     public UIManager uiManager;
     public PoolingManager poolingManager;
+    public AudioManager audioManager;
 
     void Awake()
     {
