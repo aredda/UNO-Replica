@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: End Turn
+  m_Text: Draw Card
 --- !u!1 &6488590633581032445
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 6488590633581032432}
   - component: {fileID: 6488590633581032447}
   m_Layer: 5
-  m_Name: Button - End Turn
+  m_Name: Button - Draw Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,10 +113,10 @@ RectTransform:
   m_Father: {fileID: 6488590634203121738}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 125, y: -128.75}
-  m_SizeDelta: {x: 230, y: 72.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 100, y: -110}
+  m_SizeDelta: {x: 180, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6488590633581032433
 CanvasRenderer:
@@ -319,7 +319,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template: {fileID: 0}
   buttonPlay: {fileID: 6488590634769990274}
-  buttonEndTurn: {fileID: 6488590633581032447}
+  buttonDrawCard: {fileID: 6488590633581032447}
+  yOffset: 150
 --- !u!1 &6488590634769990272
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,10 +355,10 @@ RectTransform:
   m_Father: {fileID: 6488590634203121738}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 125, y: -46.25}
-  m_SizeDelta: {x: 230, y: 72.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 100, y: -40}
+  m_SizeDelta: {x: 180, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6488590634769990276
 CanvasRenderer:

@@ -93,10 +93,14 @@ public class CardTemplate
                 this.hand.player.state = PlayerState.Ready;
             });
         };
-        System.Action actionEndTurn = delegate() {
-            // End Turn Logic
-            hand.master.EndTurn();
+        System.Action actionDrawCard = delegate() {
+            // Draw card
+            hand.master.director.deckDealer.DealCard(hand.player, delegate()
+            {
+                if(!hand.master.rules.enableDrawQuickPlay)
+                    hand.master.EndTurn();
+            });
         };
-        ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionEndTurn);
+        ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard);
     }
 }

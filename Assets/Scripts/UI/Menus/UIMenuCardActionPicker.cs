@@ -11,12 +11,12 @@ public class UIMenuCardActionPicker
 
     [Header("UI Elements")]
     public Button buttonPlay;
-    public Button buttonEndTurn;
+    public Button buttonDrawCard;
 
     [Header("Position Settings")]
     public int yOffset = 1;
 
-    public void Show(CardTemplate template, System.Action onPlay, System.Action onEndTurn)
+    public void Show(CardTemplate template, System.Action onPlay, System.Action onDrawCard)
     {
         this.template = template;
 
@@ -29,7 +29,7 @@ public class UIMenuCardActionPicker
         this.transform.position = Camera.main.WorldToScreenPoint(template.transform.position) + Vector3.up * yOffset;
         // Clear previous click listeners
         buttonPlay.onClick.RemoveAllListeners();
-        buttonEndTurn.onClick.RemoveAllListeners();
+        buttonDrawCard.onClick.RemoveAllListeners();
         // Set up listeners
         buttonPlay.onClick.AddListener(delegate() 
         { 
@@ -37,9 +37,9 @@ public class UIMenuCardActionPicker
             // Hide menu
             this.gameObject.SetActive(false);
         });
-        buttonEndTurn.onClick.AddListener(delegate() 
+        buttonDrawCard.onClick.AddListener(delegate() 
         {
-            onEndTurn.Invoke();
+            onDrawCard.Invoke();
             // Hide menu
             this.gameObject.SetActive(false);
         });
