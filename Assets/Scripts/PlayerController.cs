@@ -25,11 +25,15 @@ public class PlayerController
 
     public void ReceiveCard(Card card, System.Action onFinishAnimation = null)
     {
+        // change player state to "drawing"
+        state = PlayerState.Drawing;
+        // prepare template
         var template = hand.CreateCardTemplate(card);
-
+        // add card data
         hand.cards.Add(card);
+        // add card template
         hand.cardTemplates.Add(template);
-
+        // play draw animation
         ManagerDirector.director.cardAnimator.DrawCard(template, hand.GetDrawnCardFuturePosition(), hand.parent.rotation.eulerAngles, onFinishAnimation);
     }
 
@@ -42,7 +46,12 @@ public class PlayerController
             foreach(var template in hand.cardTemplates)
                 template.MarkAs(false);
         else
+        {
+            // reset state
+            state = PlayerState.Ready;
+            // fetch playable cards
             hand.FetchPlayableCards();
+        }
     }
 
     public bool CanPlay()

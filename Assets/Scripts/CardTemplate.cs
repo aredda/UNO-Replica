@@ -94,13 +94,13 @@ public class CardTemplate
             });
         };
         System.Action actionDrawCard = delegate() {
-            // Draw card
-            hand.master.director.deckDealer.DealCard(hand.player, delegate()
-            {
-                if(!hand.master.rules.enableDrawQuickPlay)
-                    hand.master.EndTurn();
-            });
+            // Last resorrd card draw
+            hand.master.LastResortDraw(hand.player);
+            // TODO: the player can only call for one last resort draw
+            // now, there's a hole in the logic of this button, because the player can
+            // draw infinitely
         };
+        // Show action menu
         ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard);
     }
 }

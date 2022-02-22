@@ -58,7 +58,28 @@ public class GameMaster
     public void ReverseTurnDirection()
     {
         this.turnDirection *= -1;
+        // Visually reverse the direction of arrows
         this.board.ReverseArrows();
+    }
+
+    public void LastResortDraw(PlayerController player)
+    {
+        director.deckDealer.DealCard(player, delegate() {
+            // Reset the player's ability to play
+            player.SetCanPlay();
+            // Check for the quick-play rule
+            if(!rules.enableDrawQuickPlay)
+                EndTurn();
+            else
+            {
+                // If the player still has no playable cards end turn
+                if(player.hand.FetchPlayableCards().Count == 0)
+                    EndTurn();
+                // if it's a bot, then let it decide
+                else if(player.isBot)
+                    player.bot.Decide();
+            }
+        });
     }
 
     public void PassTurn(PlayerController player)
@@ -92,6 +113,7 @@ public class GameMaster
         // Draw action
         System.Action imposedDrawAction = delegate()
         {
+            // Deal cards
             director.deckDealer.DealCards(turn, turn.hand.cards.Count + drawTotal, delegate() 
             {
                 // Exit drawing mode
@@ -113,13 +135,11 @@ public class GameMaster
             imposedDrawAction.Invoke();
         else
         {
-            // If there are no playable cards, the bot should draw
+            // If there are no playable cards, the player should draw
             if(turn.hand.FetchPlayableCards().Count == 0)
             {
-                director.deckDealer.DealCard(turn);
-                // Check for the quick-play rule
-                if(!rules.enableDrawQuickPlay)
-                    EndTurn();
+                // Resort draw
+                this.LastResortDraw(turn);
             }
             // If the next player is a bot
             else if(this.turn.isBot)
