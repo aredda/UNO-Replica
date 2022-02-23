@@ -22,6 +22,10 @@ public class PlayerHand
         get { return ManagerDirector.director.gameMaster; }
     }
     public Dictionary<ECardColor, int> colorCounters = new Dictionary<ECardColor, int> ();
+    public int CardsCount
+    {
+        get { return cards.Count; }
+    }
 
     public void SetPlayer(PlayerController player)
     {

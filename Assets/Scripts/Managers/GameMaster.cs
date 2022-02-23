@@ -110,29 +110,17 @@ public class GameMaster
         yield return new WaitForSeconds(1f);
         // Reset step
         turnStep = 1;
-        // Draw action
-        System.Action imposedDrawAction = delegate()
-        {
-            // Deal cards
-            director.deckDealer.DealCards(turn, turn.hand.cards.Count + drawTotal, delegate() 
-            {
-                // Exit drawing mode
-                ResetDrawing();
-                // End turn
-                EndTurn();
-            });
-        };
         // If draw-stacking is disabled and drawing is imposed
         if(!rules.enableDrawStacking && isDrawImposed)
         {
             // Disable his ability to play
             turn.SetCanPlay(false);
             // Make him draw cards
-            imposedDrawAction.Invoke();
+            DrawImposedCards();
         }
         // If draw stacking is allowed & this player has no playable cards
         else if(rules.enableDrawStacking && isDrawImposed && turn.hand.FetchPlayableCards().Count == 0)
-            imposedDrawAction.Invoke();
+            DrawImposedCards();
         else
         {
             // If there are no playable cards, the player should draw
@@ -179,6 +167,20 @@ public class GameMaster
         this.drawTotal += cardsToDraw;
         // Update UI label
         this.director.uiManager.labelDrawTotal.Show(this.drawTotal);
+        // Update action menu draw button text
+        director.uiManager.menuCardActionPicker.SetDrawButtonText($"Draw +{drawTotal} Cards");
+    }
+
+    public void DrawImposedCards()
+    {
+        // Deal cards to the defeated player
+        director.deckDealer.DealCards(turn, turn.hand.CardsCount + drawTotal, delegate() 
+        {
+            // Exit drawing mode
+            ResetDrawing();
+            // End turn
+            EndTurn();
+        });
     }
 
     public void ResetDrawing()
@@ -188,5 +190,7 @@ public class GameMaster
         this.drawTotal = 0;
         // Hide label
         director.uiManager.labelDrawTotal.Hide();
+        // Reset action menu draw button test
+        director.uiManager.menuCardActionPicker.SetDrawButtonText("Draw Card");
     }
 }

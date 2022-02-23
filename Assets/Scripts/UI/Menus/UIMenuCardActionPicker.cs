@@ -44,4 +44,9 @@ public class UIMenuCardActionPicker
             this.gameObject.SetActive(false);
         });
     }
+
+    public void SetDrawButtonText(string text)
+    {
+        this.buttonDrawCard.GetComponentInChildren<Text>().text = text;
+    }
 }

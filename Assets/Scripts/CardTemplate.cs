@@ -93,12 +93,21 @@ public class CardTemplate
                 this.hand.player.state = PlayerState.Ready;
             });
         };
-        System.Action actionDrawCard = delegate() {
-            // Last resorrd card draw
-            hand.master.LastResortDraw(hand.player);
-            // TODO: the player can only call for one last resort draw
-            // now, there's a hole in the logic of this button, because the player can
-            // draw infinitely
+        System.Action actionDrawCard = delegate() 
+        {
+            // first, check if draw mode is imposed
+            if(hand.master.isDrawImposed)
+            {
+                hand.master.DrawImposedCards();
+            }
+            else
+            {
+                // Last resorrd card draw
+                hand.master.LastResortDraw(hand.player);
+                // TODO: the player can only call for one last resort draw
+                // now, there's a hole in the logic of this button, because the player can
+                // draw infinitely
+            }
         };
         // Show action menu
         ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard);
