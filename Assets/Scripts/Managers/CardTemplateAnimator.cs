@@ -262,12 +262,14 @@ public class CardTemplateAnimator
     IEnumerator RoutineMoveCard(Transform transform, Vector3 target, System.Action onFinish = null, float speed = 3f)
     {
         // Move Animation
+        float timeElapsed = 0f;
         float distance = Vector3.Distance(transform.localPosition, target);
         do
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, target, speed * DeltaTime);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, target, timeElapsed / speed);
             distance = Vector3.Distance(transform.localPosition, target);
 
+            timeElapsed += DeltaTime;
             yield return new WaitForEndOfFrame();
         }
         while(distance > 0.005f);
@@ -289,12 +291,14 @@ public class CardTemplateAnimator
     IEnumerator RoutineMoveUI(RectTransform transform, Vector2 target, System.Action onFinish = null, float speed = 3f)
     {
         // Move Animation
+        float timeElapsed = 0f;
         float distance = Vector2.Distance(transform.anchoredPosition, target);
         do
         {
-            transform.localPosition = Vector2.Lerp(transform.anchoredPosition, target, speed * DeltaTime);
+            transform.localPosition = Vector2.Lerp(transform.anchoredPosition, target, timeElapsed / speed);
             distance = Vector2.Distance(transform.anchoredPosition, target);
 
+            timeElapsed += DeltaTime;
             yield return new WaitForEndOfFrame();
         }
         while(distance > 0.005f);

@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "9be1d8e6",
     "m_SelectedPackage": {
-        "deviceId": "9be1d8e6",
-        "name": "com.AreddasJams.JG",
-        "processId": 26626,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -54,6 +54,12 @@
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 26626,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 1124,
             "exited": false
         }
     ],
