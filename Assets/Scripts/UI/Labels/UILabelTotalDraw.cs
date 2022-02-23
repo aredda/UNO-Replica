@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class UILabelTotalDraw 
-    : MonoBehaviour
+    : UIElement
 {
     public Text label;
     public int fontSize = 40;
@@ -16,14 +16,15 @@ public class UILabelTotalDraw
 
         // Update text
         this.label.text = $"+{total}";
-        // Update font size
-        this.label.fontSize = fontSize + total * 2;
         // Show
         this.gameObject.SetActive(true);
     }
 
     public void Hide()
     {
+        // reset position
+        this.RectTransform.anchoredPosition = Vector2.zero;
+        // hide
         this.gameObject.SetActive(false);
     }
 }

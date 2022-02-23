@@ -28,6 +28,9 @@ public class CardTemplateAnimator
     [Header("Card Sort Animation")]
     public float sortCardSpeed = 4f;
 
+    [Header("Draw Total Animation")]
+    public float moveDrawTotalSpeed = 3f;
+
     #region Delta Time Settings
 
     public float DeltaTime 
@@ -262,11 +265,41 @@ public class CardTemplateAnimator
         float distance = Vector3.Distance(transform.localPosition, target);
         do
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, target, speed * Time.deltaTime);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, target, speed * DeltaTime);
             distance = Vector3.Distance(transform.localPosition, target);
 
             yield return new WaitForEndOfFrame();
         }
         while(distance > 0.005f);
+        // call back
+        if(onFinish != null)
+            onFinish.Invoke();
+    }
+
+    public void MoveDrawTotalText(RectTransform transform, Vector2 target, System.Action onFinish = null)
+    {
+        IEnumerator routine = RoutineMoveUI(transform, target, onFinish, moveDrawTotalSpeed);
+        // pooling
+        StopAllRoutines("moveDrawTotal");
+        AddRoutine("moveDrawTotal", routine);
+        // start routine
+        StartCoroutine(routine);
+    }
+
+    IEnumerator RoutineMoveUI(RectTransform transform, Vector2 target, System.Action onFinish = null, float speed = 3f)
+    {
+        // Move Animation
+        float distance = Vector2.Distance(transform.anchoredPosition, target);
+        do
+        {
+            transform.localPosition = Vector2.Lerp(transform.anchoredPosition, target, speed * DeltaTime);
+            distance = Vector2.Distance(transform.anchoredPosition, target);
+
+            yield return new WaitForEndOfFrame();
+        }
+        while(distance > 0.005f);
+        // call back
+        if(onFinish != null)
+            onFinish.Invoke();
     }
 }

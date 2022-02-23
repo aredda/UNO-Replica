@@ -169,6 +169,8 @@ public class GameMaster
         this.director.uiManager.labelDrawTotal.Show(this.drawTotal);
         // Update action menu draw button text
         director.uiManager.menuCardActionPicker.SetDrawButtonText($"Draw +{drawTotal} Cards");
+        // Move draw total label next to the threathened player
+        director.cardAnimator.MoveDrawTotalText(director.uiManager.labelDrawTotal.RectTransform, director.uiManager.cardPlayerIDs.Single(cpi => cpi.Concerns(GetNextPlayer())).GetMetaPosition());
     }
 
     public void DrawImposedCards()
