@@ -72,14 +72,14 @@ public class DeckDealer
 
     public void DealCards(PlayerController player, int number, System.Action onFinish = null)
     {
-        player.ReceiveCard(deckQueue.Dequeue(), ActionRecursiveCardDeal(player, number, onFinish));
+        player.ReceiveCard(deckQueue.Dequeue(), ActionRecursiveCardDeal(player, player.hand.CardsCount + number, onFinish));
     }
 
     public System.Action ActionRecursiveCardDeal(PlayerController player, int targetCardTotal, System.Action onFinishDealing)
     {
         return delegate() 
         {
-            if(player.hand.cards.Count == targetCardTotal)
+            if(player.hand.CardsCount == targetCardTotal)
             {
                 if(onFinishDealing != null)
                     onFinishDealing.Invoke();

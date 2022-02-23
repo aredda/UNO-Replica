@@ -12,17 +12,22 @@ public class UIMenuCardActionPicker
     [Header("UI Elements")]
     public Button buttonPlay;
     public Button buttonDrawCard;
+    public Button buttonChallenge;
 
     [Header("Position Settings")]
     public int yOffset = 1;
 
-    public void Show(CardTemplate template, System.Action onPlay, System.Action onDrawCard)
+    public void Show(CardTemplate template, System.Action onPlay, System.Action onDrawCard, System.Action onChallenge)
     {
         this.template = template;
 
         if(this.template == null)
             throw new System.Exception("UIMenuCardActionPicker.Show#Exception: Card template is missing");
 
+        // Get master
+        GameMaster master = ManagerDirector.director.gameMaster;
+        // Decide if challenge button is enabled
+        buttonChallenge.interactable = master.rules.enableWildDrawChallenge && master.boardCardTemplate.card is Draw4Card && master.isDrawImposed;
         // Show menu
         this.gameObject.SetActive(true);
         // Re-position
@@ -30,6 +35,7 @@ public class UIMenuCardActionPicker
         // Clear previous click listeners
         buttonPlay.onClick.RemoveAllListeners();
         buttonDrawCard.onClick.RemoveAllListeners();
+        buttonChallenge.onClick.RemoveAllListeners();
         // Set up listeners
         buttonPlay.onClick.AddListener(delegate() 
         { 
@@ -40,6 +46,12 @@ public class UIMenuCardActionPicker
         buttonDrawCard.onClick.AddListener(delegate() 
         {
             onDrawCard.Invoke();
+            // Hide menu
+            this.gameObject.SetActive(false);
+        });
+        buttonChallenge.onClick.AddListener(delegate()
+        {
+            onChallenge.Invoke();
             // Hide menu
             this.gameObject.SetActive(false);
         });

@@ -171,7 +171,7 @@ public class PlayerHand
 
     public List<CardTemplate> GetCardsByColor(List<CardTemplate> cardList, ECardColor color)
     {
-        return cardList.Where(template => ((ColorCard) template.card).color == color).ToList();
+        return cardList.Where(template => template.card is ColorCard).Where(template => ((ColorCard) template.card).color == color).ToList();
     }
 
     public List<CardTemplate> GetHighestNumberCards(List<CardTemplate> cardList)

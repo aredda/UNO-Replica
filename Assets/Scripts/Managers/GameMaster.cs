@@ -14,6 +14,7 @@ public class GameMaster
 
     [Header("Turn Settings")]
     public PlayerController turn;
+    public PlayerController previousTurn;
     public int turnDirection = 1; // 1: Clockwise | -1: Counterclockwise
     public int turnStep = 1;
 
@@ -84,6 +85,8 @@ public class GameMaster
 
     public void PassTurn(PlayerController player)
     {
+        // assign turn
+        previousTurn = turn;
         turn = player;
         // Revoke the ability to play from all players
         foreach(var p in players)
@@ -110,8 +113,18 @@ public class GameMaster
         yield return new WaitForSeconds(1f);
         // Reset step
         turnStep = 1;
+        // If challenging is enabled
+        // and drawing is imposed
+        // and if the last played card is a draw 4 card
+        // and if there are no playable cards
+        // and if the player is the local one
+        if(rules.enableWildDrawChallenge && isDrawImposed && boardCardTemplate.card is Draw4Card && turn.hand.FetchPlayableCards().Count == 0 && turn.isLocalPlayer)
+        {
+            // show him the challenge menu
+            director.uiManager.menuChallenger.Show();
+        }
         // If draw-stacking is disabled and drawing is imposed
-        if(!rules.enableDrawStacking && isDrawImposed)
+        else if(!rules.enableDrawStacking && isDrawImposed)
         {
             // Disable his ability to play
             turn.SetCanPlay(false);
@@ -170,14 +183,17 @@ public class GameMaster
         // Update action menu draw button text
         director.uiManager.menuCardActionPicker.SetDrawButtonText($"Draw +{drawTotal} Cards");
         // Move draw total label next to the threathened player
-        director.cardAnimator.MoveDrawTotalText(director.uiManager.labelDrawTotal.RectTransform, director.uiManager.cardPlayerIDs.Single(cpi => cpi.Concerns(GetNextPlayer())).GetMetaPosition());
+        director.cardAnimator.MoveDrawTotalText(director.uiManager.labelDrawTotal.RectTransform, director.uiManager.cardPlayerIDs.Single(cpi => cpi.Concerns(GetNextPlayer())).GetDrawCounterPosition());
     }
 
-    public void DrawImposedCards()
+    public void DrawImposedCards(System.Action onFinish = null)
     {
         // Deal cards to the defeated player
-        director.deckDealer.DealCards(turn, turn.hand.CardsCount + drawTotal, delegate() 
+        director.deckDealer.DealCards(turn, drawTotal, delegate() 
         {
+            // Callback
+            if(onFinish != null)
+                onFinish.Invoke();
             // Exit drawing mode
             ResetDrawing();
             // End turn

@@ -15,7 +15,8 @@ public class UICardPlayerID
     public Text labelHandCount;
 
     [Header("Meta Settings")]
-    public Vector2 metaOffset;
+    public Vector2 drawCounterOffset;
+    public Vector2 stateTextOffset;
 
     public void SetPlayer(PlayerController playerController)
     {
@@ -37,8 +38,13 @@ public class UICardPlayerID
         return player.Equals(playerController);
     }
 
-    public Vector2 GetMetaPosition()
+    public Vector2 GetDrawCounterPosition()
     {
-        return RectTransform.anchoredPosition + metaOffset;
+        return RectTransform.anchoredPosition + drawCounterOffset;
+    }
+
+    public Vector2 GetStateTextPosition()
+    {
+        return RectTransform.anchoredPosition + stateTextOffset;
     }
 }

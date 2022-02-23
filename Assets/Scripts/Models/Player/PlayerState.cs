@@ -4,5 +4,6 @@ public enum PlayerState
     DecidingMove,
     DecidingColor,
     Drawing,
-    Played
+    Played,
+    Waiting
 }

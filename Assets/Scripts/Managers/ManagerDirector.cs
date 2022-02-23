@@ -58,7 +58,8 @@ public class ManagerDirector
                 return;
 
             // Pass turn to the first player
-            gameMaster.PassTurn(gameMaster.players[0]);
+            gameMaster.turn = gameMaster.players[gameMaster.players.Count - 1];
+            gameMaster.EndTurn();
         });
     }
 }

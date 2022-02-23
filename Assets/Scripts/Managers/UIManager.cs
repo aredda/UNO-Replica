@@ -9,7 +9,9 @@ public class UIManager
     [Header("Essential UI Elements")]
     public UIMenuColorPicker menuColorPicker;
     public UIMenuCardActionPicker menuCardActionPicker;
+    public UIMenuChallenger menuChallenger;
     public UILabelTotalDraw labelDrawTotal;
+    public UILabelPlayerState labelPlayerState;
     public RectTransform cardListPlayerIDs;
     public List<UICardPlayerID> cardPlayerIDs;
 
@@ -28,6 +30,11 @@ public class UIManager
 
             this.cardPlayerIDs.Add(card);
         }
+    }
+
+    public UICardPlayerID GetPlayerCardID(PlayerController player)
+    {
+        return cardPlayerIDs.Single(p => p.playerController.Equals(player));
     }
 
     public void UpdatePlayerCards()

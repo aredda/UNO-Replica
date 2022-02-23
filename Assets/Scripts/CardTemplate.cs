@@ -83,7 +83,8 @@ public class CardTemplate
             return;
 
         // Show card actions
-        System.Action actionPlay = delegate() {
+        System.Action actionPlay = delegate() 
+        {
             // Activate the card's effect
             this.card.Activate(this, delegate()
             {
@@ -109,7 +110,12 @@ public class CardTemplate
                 // draw infinitely
             }
         };
+        System.Action actionChallenge = delegate()
+        {
+            // show challenge menu
+            ManagerDirector.director.uiManager.menuChallenger.Show();
+        };
         // Show action menu
-        ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard);
+        ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard, actionChallenge);
     }
 }

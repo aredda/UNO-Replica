@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "9be1d8e6",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "9be1d8e6",
+        "name": "com.AreddasJams.JG",
+        "processId": 3829,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,55 +11,43 @@
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
-            "processId": 6828,
-            "exited": false
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 10703,
-            "exited": false
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 12598,
-            "exited": false
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 16165,
-            "exited": false
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
             "processId": 20823,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 22360,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 29642,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 26626,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 1124,
+            "exited": true
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.sec.android.app.launcher",
+            "processId": 13476,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 3829,
             "exited": false
         }
     ],
