@@ -1,31 +1,13 @@
 {
     "m_SelectedDeviceId": "9be1d8e6",
     "m_SelectedPackage": {
-        "deviceId": "9be1d8e6",
-        "name": "com.AreddasJams.JG",
-        "processId": 13096,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 20823,
-            "exited": true
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 22360,
-            "exited": true
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 29642,
-            "exited": true
-        },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
@@ -48,13 +30,19 @@
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 3829,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 13096,
-            "exited": false
+            "exited": true
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 4669,
+            "exited": true
         }
     ],
     "m_Tags": {
