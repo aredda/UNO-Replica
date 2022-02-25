@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardController 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     public ECardColor selectedColor;
     public float changeSpeed = 5f;
@@ -45,7 +45,7 @@ public class BoardController
 
         this.Setup();
         this.selectedColor = color;
-        ManagerDirector.director.cardAnimator.ChangeBoardColor(this.meshRenderer.material, colors[color], changeSpeed);
+        Director.cardAnimator.ChangeBoardColor(this.meshRenderer.material, colors[color], changeSpeed);
     }
 
     public bool CanTurn()
@@ -65,7 +65,7 @@ public class BoardController
     {
         do
         {
-            int turnDirection = ManagerDirector.director.gameMaster.turnDirection;
+            int turnDirection = Master.turnDirection;
             // Rotate the arrows
             arrow.transform.rotation = Quaternion.Euler(arrow.transform.rotation.eulerAngles + Vector3.up * -arrowRotationSpeed * turnDirection * Time.deltaTime); 
 

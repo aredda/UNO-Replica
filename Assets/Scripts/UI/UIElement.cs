@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class UIElement 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     public RectTransform RectTransform
     {

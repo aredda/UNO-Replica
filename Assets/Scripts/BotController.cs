@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class BotController 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     public PlayerController player;
 
@@ -19,7 +19,7 @@ public class BotController
         CardTemplate bestCard = GetBestCard();
         // If there is no playable card
         if(bestCard == null)
-            ManagerDirector.director.gameMaster.EndTurn();
+            Master.EndTurn();
         else
         {
             bestCard.card.Activate(bestCard, delegate() {
@@ -34,8 +34,6 @@ public class BotController
         if(this.player == null)
             throw new System.Exception("BotController.GetBestCard#Exception: [PlayerController] object reference is missing");
 
-        ManagerDirector director = ManagerDirector.director;
-        GameMaster master = ManagerDirector.director.gameMaster;
         // First of all, the bot should know what's playable in its hand
         List<CardTemplate> playableCards = this.player.hand.FetchPlayableCards();
         // If there are no playable cards this time, end turn
@@ -45,7 +43,7 @@ public class BotController
         List<CardTemplate> numberCards = this.player.hand.GetCardsByType<NumberCard> (playableCards);
         #region Next player is almost out of cards in hand
         // Check if the next player to play has less than 3 cards
-        if(master.GetNextPlayer().hand.cards.Count < 3)
+        if(Master.GetNextPlayer().hand.cards.Count < 3)
         {
             // An order of priority on how to deal with the situation
             List<System.Type> priorityOrder = new List<System.Type>() {

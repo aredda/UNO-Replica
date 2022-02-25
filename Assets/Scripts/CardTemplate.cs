@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardTemplate 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     public bool displayOnly = false;
     public PlayerHand hand;
@@ -29,7 +29,7 @@ public class CardTemplate
         // Set description
         this.cardDescription = this.card.ToString();
         // Assign Material
-        this.faceMaterial = ManagerDirector.director.materialManager.GetMaterial(card.GetMaterialName());
+        this.faceMaterial = Director.materialManager.GetMaterial(card.GetMaterialName());
         // Initial Setup
         this.faceMeshRenderer.materials = new Material[1] { faceMaterial };
     }
@@ -59,7 +59,7 @@ public class CardTemplate
         this.isPlayable = playable;
 
         // Visualise it
-        ManagerDirector.director.cardAnimator.ChangeCardColor(this, playable ? Color.white : this.unplayableStateColor);
+        Director.cardAnimator.ChangeCardColor(this, playable ? Color.white : this.unplayableStateColor);
     }
 
     void OnMouseDown()
@@ -97,14 +97,14 @@ public class CardTemplate
         System.Action actionDrawCard = delegate() 
         {
             // first, check if draw mode is imposed
-            if(hand.master.isDrawImposed)
+            if(Master.isDrawImposed)
             {
-                hand.master.DrawImposedCards();
+                Master.DrawImposedCards();
             }
             else
             {
                 // Last resorrd card draw
-                hand.master.LastResortDraw(hand.player);
+                Master.LastResortDraw(hand.player);
                 // TODO: the player can only call for one last resort draw
                 // now, there's a hole in the logic of this button, because the player can
                 // draw infinitely
@@ -113,9 +113,9 @@ public class CardTemplate
         System.Action actionChallenge = delegate()
         {
             // show challenge menu
-            ManagerDirector.director.uiManager.menuChallenger.Show();
+            Director.uiManager.menuChallenger.Show();
         };
         // Show action menu
-        ManagerDirector.director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard, actionChallenge);
+        Director.uiManager.menuCardActionPicker.Show(this, actionPlay, actionDrawCard, actionChallenge);
     }
 }

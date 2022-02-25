@@ -2661,7 +2661,7 @@ MonoBehaviour:
   rules:
     enableDrawStacking: 1
     enableSkipStacking: 0
-    enableWildDrawChallenge: 1
+    enableWildDrawChallenge: 0
     enableOneCardCall: 1
     enableDrawQuickPlay: 0
     enableAutoDraw: 1

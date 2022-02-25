@@ -14,13 +14,12 @@ public class UIMenuChallenger
 
     public void Show()
     {
-        GameMaster master = ManagerDirector.director.gameMaster;
         // the challenged
-        PlayerController challenged = master.previousTurn;
-        bool hasColor = challenged.hand.GetCardsByColor(challenged.hand.cardTemplates, master.board.selectedColor).Count != 0;
+        PlayerController challenged = Master.previousTurn;
+        bool hasColor = challenged.hand.GetCardsByColor(challenged.hand.cardTemplates, Master.board.selectedColor).Count != 0;
         // ui changes
-        this.buttonSurrender.GetComponentInChildren<Text>().text = $"Draw +{master.drawTotal}";
-        this.panelColor.color = master.board.colors[master.board.selectedColor];
+        this.buttonSurrender.GetComponentInChildren<Text>().text = $"Draw +{Master.drawTotal}";
+        this.panelColor.color = Master.board.colors[Master.board.selectedColor];
         // show
         this.gameObject.SetActive(true);
         // configure events
@@ -31,29 +30,29 @@ public class UIMenuChallenger
         System.Action challengeWon = delegate()
         {
             // change this player's state
-            master.turn.SetCanPlay(false);
+            Master.turn.SetCanPlay(false);
             // move the total draw text back to the previous player
-            var previousPlayerCardID = master.director.uiManager.GetPlayerCardID(master.previousTurn);
-            var currentPlayerCardID = master.director.uiManager.GetPlayerCardID(master.turn);
+            var previousPlayerCardID = Master.director.uiManager.GetPlayerCardID(Master.previousTurn);
+            var currentPlayerCardID = Master.director.uiManager.GetPlayerCardID(Master.turn);
 
-            master.director.cardAnimator.MoveDrawTotalText(
-                master.director.uiManager.labelDrawTotal.RectTransform,
+            Master.director.cardAnimator.MoveDrawTotalText(
+                Master.director.uiManager.labelDrawTotal.RectTransform,
                 previousPlayerCardID.GetDrawCounterPosition()
             );
             // show the player state
-            master.director.uiManager.labelPlayerState.Show("Challenge Won", true, currentPlayerCardID.GetStateTextPosition());
+            Master.director.uiManager.labelPlayerState.Show("Challenge Won", true, currentPlayerCardID.GetStateTextPosition());
             // make the challenged player draw
-            master.director.deckDealer.DealCards(challenged, master.drawTotal, delegate()
+            Master.director.deckDealer.DealCards(challenged, Master.drawTotal, delegate()
             {
                 // hide state text
-                master.director.uiManager.labelPlayerState.Hide();
+                Master.director.uiManager.labelPlayerState.Hide();
                 // reset draw mode
-                master.ResetDrawing();
+                Master.ResetDrawing();
                 // when cards are dealt, return the ability to play
-                master.turn.SetCanPlay();
+                Master.turn.SetCanPlay();
                 // if there is nothing to play end turn
-                if(master.turn.hand.FetchPlayableCards().Count == 0)
-                    master.EndTurn();
+                if(Master.turn.hand.FetchPlayableCards().Count == 0)
+                    Master.EndTurn();
             });
             // hide
             Hide();
@@ -61,23 +60,23 @@ public class UIMenuChallenger
         System.Action challengeLost = delegate()
         {
             // change player state
-            master.turn.SetCanPlay(false);
+            Master.turn.SetCanPlay(false);
             // due to losing the challenge, a +2 penalty is added
-            master.drawTotal += 2;
+            Master.drawTotal += 2;
             // update text of draw total
-            master.director.uiManager.labelDrawTotal.Show(master.drawTotal);
+            Master.director.uiManager.labelDrawTotal.Show(Master.drawTotal);
             // update draw total text
-            master.director.cardAnimator.MoveDrawTotalText(
-                master.director.uiManager.labelDrawTotal.RectTransform,
-                master.director.uiManager.GetPlayerCardID(master.turn).GetDrawCounterPosition()
+            Master.director.cardAnimator.MoveDrawTotalText(
+                Master.director.uiManager.labelDrawTotal.RectTransform,
+                Master.director.uiManager.GetPlayerCardID(Master.turn).GetDrawCounterPosition()
             );
             // show the player state
-            master.director.uiManager.labelPlayerState.Show("Challenge Lost (+2 penalty)", false, master.director.uiManager.GetPlayerCardID(master.turn).GetStateTextPosition());
+            Master.director.uiManager.labelPlayerState.Show("Challenge Lost (+2 penalty)", false, Master.director.uiManager.GetPlayerCardID(Master.turn).GetStateTextPosition());
             // imposed drawing
-            master.DrawImposedCards(delegate()
+            Master.DrawImposedCards(delegate()
             {
                 // hide state text
-                master.director.uiManager.labelPlayerState.Hide();
+                Master.director.uiManager.labelPlayerState.Hide();
             });
             // hide
             Hide();
@@ -86,7 +85,7 @@ public class UIMenuChallenger
         buttonSurrender.onClick.AddListener(delegate()
         {
             // if the player wishes not to engage in a challenge, make him draw the intended cards
-            master.DrawImposedCards();
+            Master.DrawImposedCards();
             // hide
             Hide();
         });

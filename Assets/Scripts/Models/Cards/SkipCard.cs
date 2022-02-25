@@ -21,7 +21,7 @@ public class SkipCard
 
     public override void Activate(CardTemplate template, Action onFinish = null)
     {
-        template.hand.master.turnStep ++;
+        template.hand.Master.turnStep ++;
 
         base.Activate(template, onFinish);
     }

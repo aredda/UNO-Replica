@@ -19,7 +19,7 @@ public class Draw2Card
     public override void Activate(CardTemplate template, Action onFinish = null)
     {
         // Make the game master impose the draw on players
-        template.hand.master.ImposeDrawing();
+        template.hand.Master.ImposeDrawing();
 
         base.Activate(template, onFinish);
     }

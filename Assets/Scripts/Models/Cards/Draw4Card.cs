@@ -11,7 +11,7 @@ public class Draw4Card
     public override void Activate(CardTemplate template, Action onFinish = null)
     {
         // Impose drawing 4 cards
-        template.hand.master.ImposeDrawing(4);
+        template.hand.Master.ImposeDrawing(4);
 
         base.Activate(template, onFinish);
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIMenuCardActionPicker 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     [Header("Template Reference")]
     public CardTemplate template;
@@ -24,10 +24,8 @@ public class UIMenuCardActionPicker
         if(this.template == null)
             throw new System.Exception("UIMenuCardActionPicker.Show#Exception: Card template is missing");
 
-        // Get master
-        GameMaster master = ManagerDirector.director.gameMaster;
         // Decide if challenge button is enabled
-        buttonChallenge.interactable = master.rules.enableWildDrawChallenge && master.boardCardTemplate.card is Draw4Card && master.isDrawImposed;
+        buttonChallenge.interactable = Master.rules.enableWildDrawChallenge && Master.boardCardTemplate.card is Draw4Card && Master.isDrawImposed;
         // Show menu
         this.gameObject.SetActive(true);
         // Re-position

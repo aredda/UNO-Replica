@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     public bool isLocalPlayer = false;
     public bool isBot = false;

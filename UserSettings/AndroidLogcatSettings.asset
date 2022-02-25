@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "9be1d8e6",
         "name": "com.AreddasJams.JG",
-        "processId": 3829,
+        "processId": 13096,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -48,6 +48,12 @@
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 3829,
+            "exited": false
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 13096,
             "exited": false
         }
     ],

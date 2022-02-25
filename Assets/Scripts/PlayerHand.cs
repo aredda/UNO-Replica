@@ -10,17 +10,13 @@ using UnityEngine;
 - 
 */
 public class PlayerHand 
-    : MonoBehaviour
+    : AdvancedBehaviour
 {
     public PlayerController player;
     public Transform parent;
     public List<Card> cards;
     public List<CardTemplate> cardTemplates;
     public float zIndex = 0.005f;
-    public GameMaster master 
-    {
-        get { return ManagerDirector.director.gameMaster; }
-    }
     public Dictionary<ECardColor, int> colorCounters = new Dictionary<ECardColor, int> ();
     public int CardsCount
     {
@@ -35,7 +31,7 @@ public class PlayerHand
 
     public CardTemplate CreateCardTemplate(Card card)
     {
-        CardTemplate template = ManagerDirector.director.poolingManager.GetTemplate(parent);
+        CardTemplate template = Director.poolingManager.GetTemplate(parent);
         template.SetCard(card);
         template.SetHand(this);
         
@@ -65,7 +61,7 @@ public class PlayerHand
         foreach(var template in cardTemplates)
         {
             // Move card animation
-            master.director.cardAnimator.MoveCard(template.transform, new Vector3(-x0 + index * card_width, 0, -index * zIndex));
+            Director.cardAnimator.MoveCard(template.transform, new Vector3(-x0 + index * card_width, 0, -index * zIndex));
 
             index++;
         }
@@ -87,7 +83,7 @@ public class PlayerHand
                 break;
 
             // Move card animation
-            master.director.cardAnimator.MoveCard(template.transform, new Vector3(-x0 + index * card_width, 0, -index * zIndex));
+            Director.cardAnimator.MoveCard(template.transform, new Vector3(-x0 + index * card_width, 0, -index * zIndex));
 
             index++;
         }
@@ -104,7 +100,7 @@ public class PlayerHand
             // Reset color counters
             ResetColorCounters();
             // Check if playable
-            bool playable = template.card.IsPlayable(master.boardCardTemplate.card, master.isDrawImposed);
+            bool playable = template.card.IsPlayable(Master.boardCardTemplate.card, Master.isDrawImposed);
             // Mark this card template as playable
             template.MarkAs(playable);
             // Count color
@@ -121,22 +117,22 @@ public class PlayerHand
     public void PlayCard(CardTemplate template)
     {
         // Card Set Animation
-        ManagerDirector.director.cardAnimator.PlayCard(template, delegate() {
+        Director.cardAnimator.PlayCard(template, delegate() {
             //// Do Something When Set Card Animation Finishes ////
             // Change Board Card
-            master.ChangeBoardCard(template);
+            Master.ChangeBoardCard(template);
             // Hide Template
             template.Disable();
             // Return the card to bottom of the deck
-            ManagerDirector.director.deckDealer.deckQueue.Enqueue(template.card);
+            Director.deckDealer.deckQueue.Enqueue(template.card);
             cards.Remove(template.card);
             // Remove template from this hand, return it to the pool
             cardTemplates.Remove(template);
-            master.director.poolingManager.SaveTemplate(template);
+            Director.poolingManager.SaveTemplate(template);
             // Update Hand
             OrganizeCardTemplates();
             // End Turn
-            master.EndTurn();
+            Master.EndTurn();
         });
     }
 
