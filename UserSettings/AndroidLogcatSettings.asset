@@ -1,13 +1,31 @@
 {
     "m_SelectedDeviceId": "9be1d8e6",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "9be1d8e6",
+        "name": "com.AreddasJams.JG",
+        "processId": 13096,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 20823,
+            "exited": true
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 22360,
+            "exited": true
+        },
+        {
+            "deviceId": "9be1d8e6",
+            "name": "com.AreddasJams.JG",
+            "processId": 29642,
+            "exited": true
+        },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
@@ -30,19 +48,13 @@
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 3829,
-            "exited": true
+            "exited": false
         },
         {
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 13096,
-            "exited": true
-        },
-        {
-            "deviceId": "9be1d8e6",
-            "name": "com.AreddasJams.JG",
-            "processId": 4669,
-            "exited": true
+            "exited": false
         }
     ],
     "m_Tags": {
