@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class ManagerDirector 
+public class ManagerDirector
     : MonoBehaviour
 {
     public static ManagerDirector director;
@@ -16,6 +17,7 @@ public class ManagerDirector
     public UIManager uiManager;
     public PoolingManager poolingManager;
     public AudioManager audioManager;
+    public NetworkPoint networkPoint;
 
     void Awake()
     {
@@ -31,6 +33,10 @@ public class ManagerDirector
 
     void Start()
     {
+        // exit if it's online
+        if (gameMaster.isOnline)
+            return;
+
         // Prepare deck
         deckDealer.Prepare();
         deckDealer.Shuffle();

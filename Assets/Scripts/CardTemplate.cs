@@ -103,7 +103,7 @@ public class CardTemplate
             }
             else
             {
-                // Last resorrd card draw
+                // Last resort card draw
                 Master.LastResortDraw(hand.player);
                 // TODO: the player can only call for one last resort draw
                 // now, there's a hole in the logic of this button, because the player can

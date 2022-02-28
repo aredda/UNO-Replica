@@ -7,6 +7,7 @@ public class GameMaster
     : Manager
 {
     [Header("Game Settings")]
+    public bool isOnline = false;
     public GameRule rules = new GameRule();
 
     [Header("Hand Positions")]
@@ -32,6 +33,11 @@ public class GameMaster
     public bool isDrawImposed = false;
     public int drawTotal = 0;
 
+    public void AddPlayer(PlayerController player)
+    {
+        players.Add(player);
+    }
+
     public void PreparePlayers()
     {
         for(int i=0; i < totalPlayers; i++)
@@ -47,6 +53,26 @@ public class GameMaster
         if(enableBots)
             for(int i=1; i < totalPlayers; i++)
                 players[i].BecomeBot();
+    }
+
+    public void SortPlayers()
+    {
+        // clone the cut part before removing
+        int index = players.IndexOf(players.Single(p => p.IsLocalPlayer()));
+        List<PlayerController> previous = players.GetRange(0, index);
+        players.RemoveRange(0, index);
+        // re-sort list
+        foreach (var item in previous)
+            players.Add(item);
+    }
+
+    public void MobilizePlayers()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].SetHandPosition(handPositions.GetChild(i));
+            players[i].InitializeHand();
+        }
     }
 
     public void DisplayBoardCard()
@@ -118,7 +144,7 @@ public class GameMaster
         // and if the last played card is a draw 4 card
         // and if there are no playable cards
         // and if the player is the local one
-        if(rules.enableWildDrawChallenge && isDrawImposed && boardCardTemplate.card is Draw4Card && turn.hand.FetchPlayableCards().Count == 0 && turn.isLocalPlayer)
+        if(rules.enableWildDrawChallenge && isDrawImposed && boardCardTemplate.card is Draw4Card && turn.hand.FetchPlayableCards().Count == 0 && turn.IsLocalPlayer())
         {
             // show him the challenge menu
             director.uiManager.menuChallenger.Show();

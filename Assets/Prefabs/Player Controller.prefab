@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3370504715013300627}
   - component: {fileID: 3370504715013300626}
+  - component: {fileID: 2008119665444740453}
+  - component: {fileID: 4752112441987567924}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -44,8 +46,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3661995b5eba6d40b86ec616d21c4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   hand: {fileID: 3370504715595443322}
+  canPlay: 0
+  state: 0
+  isBot: 0
+  bot: {fileID: 0}
+  isLocalPlayer: 0
+  networkAgent: {fileID: 4752112441987567924}
+--- !u!114 &2008119665444740453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3370504715013300624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 821f8d2a6462898419cb3af10171ae81
+  hasSpawned: 0
+--- !u!114 &4752112441987567924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3370504715013300624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa04918e2400d24ba75c7ef2d0e926d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  player: {fileID: 3370504715013300626}
 --- !u!1 &3370504715595443320
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,5 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa69d02d3e896d41bdc5c7cebaceca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {fileID: 0}
+  player: {fileID: 0}
+  parent: {fileID: 0}
   cardTemplates: []
+  zIndex: 0.005

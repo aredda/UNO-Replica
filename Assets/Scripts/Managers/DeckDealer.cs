@@ -11,9 +11,42 @@ public class DeckDealer
     public int startingHand = 7;
     public Card boardCard;
 
+    [Header("Debugging Helpers")]
+    public List<string> cardNames; 
+
+    public void AddCard(Card card)
+    {
+        if (deck == null)
+            deck = new List<Card> ();
+
+        if (deckQueue == null)
+            deckQueue = new Queue<Card> ();
+
+        deck.Add(card);
+        deckQueue.Enqueue(card);
+    }
+
+    public void AddCards(List<byte[]> cardBytesList)
+    {
+        foreach (byte[] cardBytes in cardBytesList)
+            AddCard(Card.Deserialize(cardBytes));
+    }
+
+    public List<byte[]> GetDeckBytesList()
+    {
+        List<byte[]> list = new List<byte[]>();
+
+        foreach (Card card in deck)
+            list.Add(card.Serialize());
+
+        return list;
+    }
+
     public void Prepare()
     {
+        // total should be 72 cards
         this.deck = new List<Card> ();
+        // retrieve colors
         ECardColor[] card_colors = (ECardColor[]) System.Enum.GetValues(typeof(ECardColor));
         // Add numbered cards (10 * 4 in total: 40)
         int card_number = 0;
@@ -56,7 +89,6 @@ public class DeckDealer
         this.deckQueue = new Queue<Card> ();
         foreach(Card card in this.deck)
             this.deckQueue.Enqueue(card);
-        this.deck.Clear();
     }
 
     public void DealCard(PlayerController player, System.Action onFinish = null)
@@ -91,9 +123,14 @@ public class DeckDealer
         };
     }
 
-    public void SetBoardCard()
+    public void SetBoardCard(Card card = null)
     {
         // Retrieve a number card from deck
-        this.boardCard = this.deckQueue.First(card => card is NumberCard);
+        boardCard = card ?? deckQueue.First(card => card is NumberCard);
+    }
+
+    public void PrintCardNames()
+    {
+        cardNames = deck.Select(c => c.GetMaterialName()).ToList();
     }
 }

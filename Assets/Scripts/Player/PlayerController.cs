@@ -17,6 +17,7 @@ public class PlayerController
     
     [Header("Network Settings")]
     public bool isLocalPlayer = false;
+    public PlayerNetworkAgent networkAgent;
 
     public void SetHandPosition(Transform position)
     {
@@ -78,6 +79,14 @@ public class PlayerController
         this.isBot = true;
         this.bot = this.gameObject.AddComponent<BotController> ();
         this.bot.SetPlayer(this);
+    }
+
+    public bool IsLocalPlayer()
+    {
+        if (Master.isOnline)
+            return networkAgent.isLocalPlayer;
+
+        return isLocalPlayer;
     }
 
     public void DebugShowHand()

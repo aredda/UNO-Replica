@@ -13,8 +13,8 @@ public class DeckController
         // Check if there's auto draw
         if(Master.rules.enableAutoDraw)
             return;
-        // Check if it's the player
-        if(!Master.turn.isLocalPlayer)
+        // Check if it's the local player
+        if(!Master.turn.IsLocalPlayer())
             return;
         // Check if he can play
         if(!Master.turn.CanPlay())

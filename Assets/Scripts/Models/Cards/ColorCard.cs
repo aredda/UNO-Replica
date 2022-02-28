@@ -1,3 +1,4 @@
+[System.Serializable]
 public abstract class ColorCard 
     : Card
 {
