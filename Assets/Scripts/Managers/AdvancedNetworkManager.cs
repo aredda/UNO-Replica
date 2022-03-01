@@ -37,9 +37,10 @@ public class AdvancedNetworkManager
             foreach(var agent in playerAgents)
                 networkPoint.RpcAddPlayer(agent);
             // prepare a deck of cards in server
-            networkPoint.director.deckDealer.Prepare();
-            networkPoint.director.deckDealer.Shuffle();
-            networkPoint.director.deckDealer.SetBoardCard();
+            DeckDealer dealer = networkPoint.director.deckDealer;
+            dealer.Prepare();
+            dealer.Shuffle();
+            dealer.SetBoardCard();
             // configure network points
             foreach (var agent in playerAgents)
             {
@@ -47,13 +48,23 @@ public class AdvancedNetworkManager
                 networkPoint.RpcSortPlayers(agent);
                 // move each player to its respective position
                 networkPoint.RpcMobilizePlayers(agent);
+                // send synchronized deck to all clients' deck dealers
+                networkPoint.RpcUpdateDeck(agent.connectionToClient, agent, dealer.GetDeckBytesList());
+                // send synchronized board card to all clients
+                networkPoint.RpcSetBoardCard(agent.connectionToClient, agent, dealer.boardCard.Serialize());
+                // deal cards
+                for (int i = 0; i < dealer.startingHand; i++)
+                    agent.RpcAddCard(dealer.Dequeue().Serialize());
+            }
+            // update deck in all clients
+            foreach(var agent in playerAgents)
+            {
+                networkPoint.RpcUpdateDeck(agent.connectionToClient, agent, dealer.GetDeckBytesList());
                 // set player cards
                 networkPoint.RpcSetPlayerUICards(agent);
-                // send synchronized deck to all clients' deck dealers
-                networkPoint.RpcAddCardsToDeck(agent.connectionToClient, agent, networkPoint.director.deckDealer.GetDeckBytesList());
-                // send synchronized board card to all clients
-                networkPoint.RpcSetBoardCard(agent.connectionToClient, agent, networkPoint.director.deckDealer.boardCard.Serialize());
             }
+            // show players their hands
+            playerAgents[0].RpcShowCards();
         }
     }
 }

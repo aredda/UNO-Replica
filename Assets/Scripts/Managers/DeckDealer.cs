@@ -12,24 +12,23 @@ public class DeckDealer
     public Card boardCard;
 
     [Header("Debugging Helpers")]
-    public List<string> cardNames; 
+    public List<string> cardNames;
 
-    public void AddCard(Card card)
+    public void UpdateDeck(List<byte[]> cardBytesList)
     {
         if (deck == null)
-            deck = new List<Card> ();
+            deck = new List<Card>();
 
         if (deckQueue == null)
-            deckQueue = new Queue<Card> ();
+            deckQueue = new Queue<Card>();
 
-        deck.Add(card);
-        deckQueue.Enqueue(card);
-    }
+        deck.Clear();
+        deckQueue.Clear();
 
-    public void AddCards(List<byte[]> cardBytesList)
-    {
-        foreach (byte[] cardBytes in cardBytesList)
-            AddCard(Card.Deserialize(cardBytes));
+        foreach (byte[] bytes in cardBytesList)
+            deck.Add(Card.Deserialize(bytes));
+
+        deckQueue = new Queue<Card> (deck);
     }
 
     public List<byte[]> GetDeckBytesList()
@@ -84,16 +83,14 @@ public class DeckDealer
 
         // Sort deck randomly
         System.Random random = new System.Random();
-        this.deck = this.deck.OrderBy(i => random.Next()).ToList();
+        deck = deck.OrderBy(i => random.Next()).ToList();
         // Move them to a queue, in order for the players to be able to draw them in LAST-IN-LAST-OUT manner
-        this.deckQueue = new Queue<Card> ();
-        foreach(Card card in this.deck)
-            this.deckQueue.Enqueue(card);
+        deckQueue = new Queue<Card> (deck);
     }
 
     public void DealCard(PlayerController player, System.Action onFinish = null)
     {
-        player.ReceiveCard(this.deckQueue.Dequeue(), onFinish);
+        player.ReceiveCard(Dequeue(), onFinish);
     }
 
     public void DealCards(List<PlayerController> players, System.Action onFinishDealing = null)
@@ -104,7 +101,7 @@ public class DeckDealer
 
     public void DealCards(PlayerController player, int number, System.Action onFinish = null)
     {
-        player.ReceiveCard(deckQueue.Dequeue(), ActionRecursiveCardDeal(player, player.hand.CardsCount + number, onFinish));
+        player.ReceiveCard(Dequeue(), ActionRecursiveCardDeal(player, player.hand.CardsCount + number, onFinish));
     }
 
     public System.Action ActionRecursiveCardDeal(PlayerController player, int targetCardTotal, System.Action onFinishDealing)
@@ -119,7 +116,7 @@ public class DeckDealer
                 return;
             }
 
-            player.ReceiveCard(this.deckQueue.Dequeue(), ActionRecursiveCardDeal(player, targetCardTotal, onFinishDealing));
+            player.ReceiveCard(Dequeue(), ActionRecursiveCardDeal(player, targetCardTotal, onFinishDealing));
         };
     }
 
@@ -127,6 +124,22 @@ public class DeckDealer
     {
         // Retrieve a number card from deck
         boardCard = card ?? deckQueue.First(card => card is NumberCard);
+    }
+
+    public Card Dequeue()
+    {
+        Card dequeued = deckQueue.Dequeue();
+
+        if (deck.Contains(dequeued))
+            deck.Remove(dequeued);
+
+        return dequeued;
+    }
+
+    public void Enqueue(Card card)
+    {
+        deck.Add(card);
+        deckQueue.Enqueue(card);
     }
 
     public void PrintCardNames()

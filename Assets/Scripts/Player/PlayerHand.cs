@@ -12,8 +12,11 @@ using UnityEngine;
 public class PlayerHand 
     : AdvancedBehaviour
 {
+    [Header("Player Reference")]
     public PlayerController player;
     public Transform parent;
+
+    [Header("Card Management")]
     public List<Card> cards;
     public List<CardTemplate> cardTemplates;
     public float zIndex = 0.005f;
@@ -26,7 +29,16 @@ public class PlayerHand
     public void SetPlayer(PlayerController player)
     {
         this.player = player;
+
         this.InitializeColorCounters();
+    }
+
+    public void ReceiveCard(Card card)
+    {
+        if (cards == null)
+            cards = new List<Card>();
+
+        cards.Add(card);
     }
 
     public CardTemplate CreateCardTemplate(Card card)
@@ -44,7 +56,7 @@ public class PlayerHand
             throw new System.Exception("PlayerHand.CreateCardTemplates#Exception: Cannot show an empty hand");
         
         foreach(var card in cards)
-            this.cardTemplates.Add(CreateCardTemplate(card));
+            cardTemplates.Add(CreateCardTemplate(card));
     }
 
     public void OrganizeCardTemplates()
@@ -124,7 +136,7 @@ public class PlayerHand
             // Hide Template
             template.Disable();
             // Return the card to bottom of the deck
-            Director.deckDealer.deckQueue.Enqueue(template.card);
+            Director.deckDealer.Enqueue(template.card);
             cards.Remove(template.card);
             // Remove template from this hand, return it to the pool
             cardTemplates.Remove(template);
@@ -141,7 +153,27 @@ public class PlayerHand
         return handCount < 9 ? 0.75f : 0.75f - (0.75f / (handCount / 2));
     }
 
-    #region Data Analytics
+    public List<byte[]> GetHandCardBytes()
+    {
+        List<byte[]> byteList = new List<byte[]>();
+
+        foreach (var card in cards)
+            byteList.Add(card.Serialize());
+
+        return byteList;
+    }
+
+    public void UpdateHand(List<byte[]> byteList)
+    {
+        if (cards == null)
+            cards = new List<Card>();
+        cards.Clear ();
+
+        foreach (byte[] bytes in byteList)
+            ReceiveCard(Card.Deserialize(bytes));
+    }
+
+    #region Data Queries
 
     public void InitializeColorCounters()
     {

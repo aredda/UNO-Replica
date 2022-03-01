@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Mirror;
 
 public class NetworkPoint 
@@ -33,25 +34,27 @@ public class NetworkPoint
     }
 
     [TargetRpc]
-    public void RpcAddCardsToDeck(NetworkConnection _, PlayerNetworkAgent agent, List<byte[]> cardBytesList)
-    {
-        if (agent.player.Director.deckDealer.deck != null)
-        {
-            // TODO: to delete later
-            agent.player.Director.deckDealer.PrintCardNames();
-
-            return;
-        }
-        // add card to dealer's deck
-        agent.player.Director.deckDealer.AddCards(cardBytesList);
-        // TODO: to delete later
-        agent.player.Director.deckDealer.PrintCardNames();
-    }
-
-    [TargetRpc]
     public void RpcSetBoardCard(NetworkConnection _, PlayerNetworkAgent agent, byte[] boardCardBytes)
     {
         agent.player.Director.deckDealer.SetBoardCard(Card.Deserialize(boardCardBytes));
         agent.player.Master.DisplayBoardCard();
+    }
+
+    [TargetRpc]
+    public void RpcUpdateDeck(NetworkConnection _, PlayerNetworkAgent agent, List<byte[]> cardBytesList)
+    {
+        agent.player.Director.deckDealer.UpdateDeck(cardBytesList);
+        agent.player.Director.deckDealer.PrintCardNames();
+    }
+
+    [ClientRpc]
+    public void RpcShowHand()
+    {
+        // TODO: change it to do a proper animation
+        foreach (var player in director.gameMaster.players)
+        {
+            player.hand.CreateCardTemplates();
+            player.hand.OrganizeCardTemplates();
+        }
     }
 }
