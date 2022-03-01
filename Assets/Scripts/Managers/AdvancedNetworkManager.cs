@@ -65,6 +65,8 @@ public class AdvancedNetworkManager
             }
             // show players their hands
             playerAgents[0].RpcShowCards();
+            // set the initial turn
+            networkPoint.RpcSetInitialTurn(playerAgents[0]);
         }
     }
 }

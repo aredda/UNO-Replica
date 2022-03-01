@@ -9,6 +9,10 @@ public class NetworkPoint
 {
     public ManagerDirector director;
 
+    [Header("Persisted Master Fields")]
+    [SyncVar]
+    public PlayerNetworkAgent currentTurn;
+
     [ClientRpc]
     public void RpcAddPlayer(PlayerNetworkAgent agent)
     {
@@ -56,5 +60,13 @@ public class NetworkPoint
             player.hand.CreateCardTemplates();
             player.hand.OrganizeCardTemplates();
         }
+    }
+
+    [ClientRpc]
+    public void RpcSetInitialTurn(PlayerNetworkAgent turnAgent)
+    {
+        director.networkPoint.currentTurn = turnAgent;
+        // pass turn to targeted player
+        director.gameMaster.PassTurn(turnAgent.player);
     }
 }
