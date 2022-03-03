@@ -88,7 +88,7 @@ public class CardTemplate
             // Activate the card's effect
             // if online call the command instead
             if (Master.isOnline)
-                hand.player.networkAgent.CmdPlayCard(card.Serialize());
+                hand.player.agent.CmdPlayCard(card.Serialize());
             else
                 card.Activate(this, delegate()
                 {
@@ -102,7 +102,7 @@ public class CardTemplate
         {
             // if it's online game
             if (Master.isOnline)
-                hand.player.networkAgent.CmdDrawCard();
+                hand.player.agent.CmdDrawCard();
             else
                 // first, check if draw mode is imposed
                 if(Master.isDrawImposed)

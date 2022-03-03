@@ -17,7 +17,7 @@ public class PlayerController
     
     [Header("Network Settings")]
     public bool isLocalPlayer = false;
-    public PlayerNetworkAgent networkAgent;
+    public PlayerNetworkAgent agent;
 
     public void SetHandPosition(Transform position)
     {
@@ -84,7 +84,7 @@ public class PlayerController
     public bool IsLocalPlayer()
     {
         if (Master.isOnline)
-            return networkAgent.isLocalPlayer;
+            return agent.isLocalPlayer;
 
         return isLocalPlayer;
     }

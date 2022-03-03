@@ -32,12 +32,19 @@ public abstract class WildCard
             if(onFinish != null)
                 onFinish.Invoke();
         }
+        // TODO: fix this because it will break on offline mode
         else
         {
-            // Change the player's state
-            template.hand.player.state = PlayerState.DecidingColor;
-            // Show menu
-            ManagerDirector.director.uiManager.menuColorPicker.Show(template, onFinish);
+            if (ManagerDirector.director.gameMaster.isOnline)
+            {
+                if (template.hand.player.agent.isLocalPlayer)
+                {
+                    // Change the player's state
+                    template.hand.player.state = PlayerState.DecidingColor;
+                    // Show menu
+                    ManagerDirector.director.uiManager.menuColorPicker.Show(template, onFinish);
+                }
+            }
         }
     }
 }
