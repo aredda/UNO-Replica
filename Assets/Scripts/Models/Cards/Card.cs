@@ -4,6 +4,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public abstract class Card
 {
+    public string id;
+    public string type;
     public virtual void Activate(CardTemplate template, System.Action onFinish = null)
     {
         if(onFinish != null)
@@ -12,11 +14,23 @@ public abstract class Card
     public abstract string GetMaterialName();
     public override string ToString()
     {
-        return this.GetMaterialName();
+        return GetMaterialName();
     }
     public abstract bool IsPlayable(Card boardCard, bool isDrawImposed = false);
 
+    public Card()
+    {
+        id = $"{System.Guid.NewGuid()}";
+        type = GetType().Name;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return id.CompareTo(((Card)obj).id) == 0;
+    }
+
     #region Serialization
+
     public virtual byte[] Serialize()
     {
         BinaryFormatter formatter = new BinaryFormatter();

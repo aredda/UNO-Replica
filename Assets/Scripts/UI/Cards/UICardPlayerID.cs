@@ -32,7 +32,7 @@ public class UICardPlayerID
 
     public void UpdateHandCount()
     {
-        labelHandCount.text = $"{(Master.isOnline ? playerController.networkAgent.handCardCount : playerController.hand.CardsCount)} cards";
+        labelHandCount.text = $"{playerController.hand.CardsCount} cards";
     }
 
     public bool Concerns(PlayerController player)

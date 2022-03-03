@@ -6,13 +6,11 @@ using UnityEngine;
 public class DeckDealer 
     : Manager
 {
+    [SerializeReference]
     public List<Card> deck;
     public Queue<Card> deckQueue;
     public int startingHand = 7;
     public Card boardCard;
-
-    [Header("Debugging Helpers")]
-    public List<string> cardNames;
 
     public void UpdateDeck(List<byte[]> cardBytesList)
     {
@@ -140,10 +138,5 @@ public class DeckDealer
     {
         deck.Add(card);
         deckQueue.Enqueue(card);
-    }
-
-    public void PrintCardNames()
-    {
-        cardNames = deck.Select(c => c.GetMaterialName()).ToList();
     }
 }

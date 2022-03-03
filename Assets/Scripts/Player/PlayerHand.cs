@@ -17,6 +17,7 @@ public class PlayerHand
     public Transform parent;
 
     [Header("Card Management")]
+    [SerializeReference]
     public List<Card> cards;
     public List<CardTemplate> cardTemplates;
     public float zIndex = 0.005f;
@@ -39,6 +40,17 @@ public class PlayerHand
             cards = new List<Card>();
 
         cards.Add(card);
+    }
+
+    public void ReturnCard(Card card)
+    {
+        if (cards == null)
+            return;
+
+        if (!cards.Exists(c => c.Equals(card)))
+            throw new System.Exception($"PlayerHand.ReturnCard: [{card}] doesn't exist in list");
+
+        cards.Remove(card);
     }
 
     public CardTemplate CreateCardTemplate(Card card)
@@ -163,17 +175,18 @@ public class PlayerHand
         return byteList;
     }
 
-    public void UpdateHand(List<byte[]> byteList)
-    {
-        if (cards == null)
-            cards = new List<Card>();
-        cards.Clear ();
-
-        foreach (byte[] bytes in byteList)
-            ReceiveCard(Card.Deserialize(bytes));
-    }
-
     #region Data Queries
+
+    public CardTemplate GetCardTemplate(Card card)
+    {
+        if (!cards.Exists(c => c.Equals(card)))
+            throw new System.Exception("PlayerHand.GetCardTemplate: card doesn't exist in card list");
+
+        if (!cardTemplates.Exists(tc => tc.card.Equals(card)))
+            throw new System.Exception("PlayerHand.GetCardTemplate: card doesn't have a corresponding template");
+
+        return cardTemplates.Single(ct => ct.card.Equals(card));
+    }
 
     public void InitializeColorCounters()
     {

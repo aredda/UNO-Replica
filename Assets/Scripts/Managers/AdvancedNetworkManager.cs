@@ -53,8 +53,7 @@ public class AdvancedNetworkManager
                 // send synchronized board card to all clients
                 networkPoint.RpcSetBoardCard(agent.connectionToClient, agent, dealer.boardCard.Serialize());
                 // deal cards
-                for (int i = 0; i < dealer.startingHand; i++)
-                    agent.RpcAddCard(dealer.Dequeue().Serialize());
+                
             }
             // update deck in all clients
             foreach(var agent in playerAgents)

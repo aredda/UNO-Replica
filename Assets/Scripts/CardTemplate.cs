@@ -86,29 +86,37 @@ public class CardTemplate
         System.Action actionPlay = delegate() 
         {
             // Activate the card's effect
-            this.card.Activate(this, delegate()
-            {
-                // Animate setting the card
-                this.hand.PlayCard(this);
-                // TODO: remove (temporary, for test purpose)
-                this.hand.player.state = PlayerState.Ready;
-            });
+            // if online call the command instead
+            if (Master.isOnline)
+                hand.player.networkAgent.CmdPlayCard(card.Serialize());
+            else
+                card.Activate(this, delegate()
+                {
+                    // Play card functionality
+                    hand.PlayCard(this);
+                    // TODO: remove (temporary, for test purpose)
+                    hand.player.state = PlayerState.Ready;
+                });
         };
         System.Action actionDrawCard = delegate() 
         {
-            // first, check if draw mode is imposed
-            if(Master.isDrawImposed)
-            {
-                Master.DrawImposedCards();
-            }
+            // if it's online game
+            if (Master.isOnline)
+                hand.player.networkAgent.CmdDrawCard();
             else
-            {
-                // Last resort card draw
-                Master.LastResortDraw(hand.player);
-                // TODO: the player can only call for one last resort draw
-                // now, there's a hole in the logic of this button, because the player can
-                // draw infinitely
-            }
+                // first, check if draw mode is imposed
+                if(Master.isDrawImposed)
+                {
+                    Master.DrawImposedCards();
+                }
+                else
+                {
+                    // Last resort card draw
+                    Master.LastResortDraw(hand.player);
+                    // TODO: the player can only call for one last resort draw
+                    // now, there's a hole in the logic of this button, because the player can
+                    // draw infinitely
+                }
         };
         System.Action actionChallenge = delegate()
         {
