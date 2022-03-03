@@ -27,7 +27,7 @@ public class UICardPlayerID
     {
         // TODO: must be refactored
         if(Master.isOnline)
-            labelUsername.text = $"Player {playerController.networkAgent.netId}";
+            labelUsername.text = $"Player {playerController.agent.netId}";
     }
 
     public void UpdateHandCount()

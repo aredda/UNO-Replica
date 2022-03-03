@@ -52,7 +52,7 @@ MonoBehaviour:
   isBot: 0
   bot: {fileID: 0}
   isLocalPlayer: 0
-  networkAgent: {fileID: 4752112441987567924}
+  agent: {fileID: 4752112441987567924}
 --- !u!114 &2008119665444740453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,5 +130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   parent: {fileID: 0}
+  cards: []
   cardTemplates: []
   zIndex: 0.005
+  references:
+    version: 1

@@ -12,6 +12,8 @@ public class NetworkPoint
     [Header("Persisted Master Fields")]
     [SyncVar]
     public PlayerNetworkAgent currentTurn;
+    [SyncVar]
+    public byte[] currentBoardCard;
 
     [ClientRpc]
     public void RpcAddPlayer(PlayerNetworkAgent agent)

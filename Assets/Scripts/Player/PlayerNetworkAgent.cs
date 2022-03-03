@@ -10,6 +10,17 @@ public class PlayerNetworkAgent
     [Header("Player Settings")]
     public PlayerController player;
 
+    void Awake()
+    {
+        player = GetComponent<PlayerController>();
+    }
+
+    [ClientRpc]
+    public void RpcAddCardToHand(byte[] cardBytes)
+    {
+        player.hand.ReceiveCard(Card.Deserialize(cardBytes));
+    }
+
     [ClientRpc]
     public void RpcShowCards()
     {
