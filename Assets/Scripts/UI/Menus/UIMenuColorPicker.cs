@@ -37,14 +37,13 @@ public class UIMenuColorPicker
             buttons[color].onClick.RemoveAllListeners();
             buttons[color].onClick.AddListener(delegate() 
             {
-                WildCard wildCard = (WildCard) this.cardTemplate.card;
+                WildCard wildCard = (WildCard) cardTemplate.card;
                 wildCard.chosenColor = color;
-                this.cardTemplate.card = wildCard;
                 // onFinish callback
                 if(onFinish != null)
                     onFinish.Invoke();
                 // hide menu
-                this.gameObject.SetActive(false);
+                gameObject.SetActive(false);
             });
         }
 

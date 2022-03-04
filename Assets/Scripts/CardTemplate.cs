@@ -82,21 +82,34 @@ public class CardTemplate
         if(!isPlayable)
             return;
 
+        // retrieve game master
+        GameMaster master = ManagerDirector.director.gameMaster;
+
         // Show card actions
         System.Action actionPlay = delegate() 
         {
-            // Activate the card's effect
-            // if online call the command instead
-            if (Master.isOnline)
-                hand.player.agent.CmdPlayCard(card.Serialize());
-            else
-                card.Activate(this, delegate()
-                {
+            System.Action actionPlayStep = delegate () {
+                // if online call the command instead
+                if (Master.isOnline)
+                    hand.player.agent.CmdPlayCard(card.Serialize());
+                else
                     // Play card functionality
                     hand.PlayCard(this);
-                    // TODO: remove (temporary, for test purpose)
-                    hand.player.state = PlayerState.Ready;
-                });
+            };
+
+            // we need to check if this card is a wild one
+            if (card is WildCard)
+            {
+                if ((master.isOnline && hand.player.agent.isLocalPlayer) || (!master.isOnline && hand.player.isLocalPlayer))
+                {
+                    // Change the player's state
+                    hand.player.state = PlayerState.DecidingColor;
+                    // Show menu
+                    ManagerDirector.director.uiManager.menuColorPicker.Show(this, actionPlayStep);
+                }
+            }
+            else
+                actionPlayStep.Invoke();
         };
         System.Action actionDrawCard = delegate() 
         {
