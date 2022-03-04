@@ -12,8 +12,6 @@ public class NetworkPoint
     [Header("Persisted Master Fields")]
     [SyncVar]
     public PlayerNetworkAgent currentTurn;
-    [SyncVar]
-    public byte[] currentBoardCard;
 
     [ClientRpc]
     public void RpcAddPlayer(PlayerNetworkAgent agent)
@@ -75,11 +73,10 @@ public class NetworkPoint
         Card card = Card.Deserialize(cardBytes);
         // get related template
         CardTemplate template = agent.player.hand.GetCardTemplate(card);
-        // activate
-        card.Activate(template, delegate () {
-            // play card
-            agent.player.hand.PlayCard(template);
-        });
+        // update template card
+        template.card = card;
+        // play card
+        agent.player.hand.PlayCard(template);
     }
 
     [ClientRpc]

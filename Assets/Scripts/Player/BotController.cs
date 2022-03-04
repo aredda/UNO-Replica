@@ -22,10 +22,14 @@ public class BotController
             Master.EndTurn();
         else
         {
-            bestCard.card.Activate(bestCard, delegate() {
-                // Animate card playing
-                this.player.hand.PlayCard(bestCard);
-            });
+            // wild card patch
+            if(bestCard.card is WildCard)
+            {
+                WildCard wildCard = bestCard.card as WildCard;
+                wildCard.chosenColor = bestCard.hand.GetDominantColor();
+            }
+            // Animate card playing
+            player.hand.PlayCard(bestCard);
         }
     }
 

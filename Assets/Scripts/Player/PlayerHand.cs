@@ -143,6 +143,8 @@ public class PlayerHand
         // Card Set Animation
         Director.cardAnimator.PlayCard(template, delegate() {
             //// Do Something When Set Card Animation Finishes ////
+            // activate card effect
+            template.card.Activate(template);
             // Change Board Card
             Master.ChangeBoardCard(template);
             // Hide Template

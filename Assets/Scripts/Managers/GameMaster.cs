@@ -202,10 +202,10 @@ public class GameMaster
     public void ImposeDrawing(int cardsToDraw = 2)
     {
         // Activate drawing mode
-        this.isDrawImposed = true;
-        this.drawTotal += cardsToDraw;
+        isDrawImposed = true;
+        drawTotal += cardsToDraw;
         // Update UI label
-        this.director.uiManager.labelDrawTotal.Show(this.drawTotal);
+        director.uiManager.labelDrawTotal.Show(drawTotal);
         // Update action menu draw button text
         director.uiManager.menuCardActionPicker.SetDrawButtonText($"Draw +{drawTotal} Cards");
         // Move draw total label next to the threathened player
@@ -230,8 +230,8 @@ public class GameMaster
     public void ResetDrawing()
     {
         // Disable drawing mode
-        this.isDrawImposed = false;
-        this.drawTotal = 0;
+        isDrawImposed = false;
+        drawTotal = 0;
         // Hide label
         director.uiManager.labelDrawTotal.Hide();
         // Reset action menu draw button test
