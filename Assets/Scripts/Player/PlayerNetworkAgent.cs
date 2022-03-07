@@ -42,4 +42,22 @@ public class PlayerNetworkAgent
     {
         player.Director.networkPoint.RpcDrawCard(this);
     }
+
+    [Command]
+    public void CmdWinChallenge()
+    {
+        player.Director.networkPoint.RpcWinChallenge(this);
+    }
+
+    [Command]
+    public void CmdLoseChallenge()
+    {
+        player.Director.networkPoint.RpcLoseChallenge(this);
+    }
+
+    [Command]
+    public void CmdSurrenderChallenge()
+    {
+        player.Director.networkPoint.RpcImposeDraw(this);
+    }
 }

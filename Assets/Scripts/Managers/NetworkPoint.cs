@@ -31,10 +31,10 @@ public class NetworkPoint
         agent.player.Master.MobilizePlayers();
     }
 
-    [ClientRpc]
-    public void RpcSetPlayerUICards(PlayerNetworkAgent agent)
+    [TargetRpc]
+    public void RpcSetPlayerUICards(NetworkConnection _)
     {
-        agent.player.Director.uiManager.PreparePlayerCards(agent.player.Master.players);
+        director.uiManager.PreparePlayerCards(director.gameMaster.players);
     }
 
     [TargetRpc]
@@ -95,5 +95,23 @@ public class NetworkPoint
             // now, there's a hole in the logic of this button, because the player can
             // draw infinitely
         }
+    }
+
+    [ClientRpc]
+    public void RpcWinChallenge(PlayerNetworkAgent agent)
+    {
+        agent.player.Master.WinChallenge(agent.player.Master.previousTurn);
+    }
+
+    [ClientRpc]
+    public void RpcLoseChallenge(PlayerNetworkAgent agent)
+    {
+        agent.player.Master.LoseChallenge();
+    }
+
+    [ClientRpc]
+    public void RpcImposeDraw(PlayerNetworkAgent agent)
+    {
+        agent.player.Master.DrawImposedCards();
     }
 }

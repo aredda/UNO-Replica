@@ -11,7 +11,7 @@ public class GameMaster
     public GameRule rules = new GameRule();
 
     [Header("Hand Positions")]
-    public Transform handPositions;
+    public List<HandDisposition> handCases;
 
     [Header("Turn Settings")]
     public PlayerController turn;
@@ -40,10 +40,13 @@ public class GameMaster
 
     public void PreparePlayers()
     {
+        // retrieve proper disposition
+        HandDisposition disposition = handCases.Single(d => d.handPositions.Count == totalPlayers);
+        // set up players
         for(int i=0; i < totalPlayers; i++)
         {
             PlayerController player_controller = Instantiate(director.prefabManager.playerController);
-            player_controller.SetHandPosition(handPositions.GetChild(i));
+            player_controller.SetHandPosition(disposition.handPositions[i]);
             player_controller.InitializeHand();
 
             players.Add(player_controller);
@@ -68,9 +71,12 @@ public class GameMaster
 
     public void MobilizePlayers()
     {
+        // retrieve correct disposition
+        HandDisposition disposition = handCases.Single(d => d.handPositions.Count == players.Count);
+        // set up players
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].SetHandPosition(handPositions.GetChild(i));
+            players[i].SetHandPosition(disposition.handPositions[i]);
             players[i].InitializeHand();
         }
     }
@@ -136,7 +142,7 @@ public class GameMaster
         // Pass turn to the next player
         PassTurn(GetNextPlayer(turnStep));
         // Wait
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         // Reset step
         turnStep = 1;
         // If challenging is enabled
@@ -149,28 +155,26 @@ public class GameMaster
             // show him the challenge menu
             director.uiManager.menuChallenger.Show();
         }
-        // If draw-stacking is disabled and drawing is imposed
+        // If draw-stacking is disabled and drawing is imposed, force him to draw
         else if(!rules.enableDrawStacking && isDrawImposed)
-        {
-            // Disable his ability to play
-            turn.SetCanPlay(false);
-            // Make him draw cards
             DrawImposedCards();
-        }
+        // If someone else is challenging do nothing
+        else if(rules.enableWildDrawChallenge && rules.enableDrawStacking && isDrawImposed && boardCardTemplate.card is Draw4Card && !turn.IsLocalPlayer())
+            yield break;
         // If draw stacking is allowed & this player has no playable cards
         else if(rules.enableDrawStacking && isDrawImposed && turn.hand.FetchPlayableCards().Count == 0)
             DrawImposedCards();
         else
         {
             // If there are no playable cards, the player should draw
-            if(turn.hand.FetchPlayableCards().Count == 0)
+            if (turn.hand.FetchPlayableCards().Count == 0)
             {
                 // Resort draw
-                this.LastResortDraw(turn);
+                LastResortDraw(turn);
             }
             // If the next player is a bot
-            else if(this.turn.isBot)
-                this.turn.bot.Decide();
+            else if(turn.isBot)
+                turn.bot.Decide();
         }
     }
 
@@ -209,11 +213,13 @@ public class GameMaster
         // Update action menu draw button text
         director.uiManager.menuCardActionPicker.SetDrawButtonText($"Draw +{drawTotal} Cards");
         // Move draw total label next to the threathened player
-        director.cardAnimator.MoveDrawTotalText(director.uiManager.labelDrawTotal.RectTransform, director.uiManager.cardPlayerIDs.Single(cpi => cpi.Concerns(GetNextPlayer())).GetDrawCounterPosition());
+        director.cardAnimator.MoveDrawTotalText(director.uiManager.labelDrawTotal.RectTransform, director.uiManager.GetPlayerCardID(GetNextPlayer()).GetDrawCounterPosition());
     }
 
     public void DrawImposedCards(System.Action onFinish = null)
     {
+        // turn of the possibility of playing
+        turn.SetCanPlay(false);
         // Deal cards to the defeated player
         director.deckDealer.DealCards(turn, drawTotal, delegate() 
         {
@@ -236,5 +242,57 @@ public class GameMaster
         director.uiManager.labelDrawTotal.Hide();
         // Reset action menu draw button test
         director.uiManager.menuCardActionPicker.SetDrawButtonText("Draw Card");
+    }
+
+    public void WinChallenge(PlayerController challenged)
+    {
+        // change this player's state
+        turn.SetCanPlay(false);
+        // move the total draw text back to the previous player
+        var previousPlayerCardID = director.uiManager.GetPlayerCardID(previousTurn);
+        var currentPlayerCardID = director.uiManager.GetPlayerCardID(turn);
+
+        director.cardAnimator.MoveDrawTotalText(
+            director.uiManager.labelDrawTotal.RectTransform,
+            previousPlayerCardID.GetDrawCounterPosition()
+        );
+        // show the player state
+        director.uiManager.labelPlayerState.Show("Challenge Won", true, currentPlayerCardID.GetStateTextPosition());
+        // make the challenged player draw
+        director.deckDealer.DealCards(challenged, drawTotal, delegate ()
+        {
+            // hide state text
+            director.uiManager.labelPlayerState.Hide();
+            // reset draw mode
+            ResetDrawing();
+            // when cards are dealt, return the ability to play
+            turn.SetCanPlay();
+            // if there is nothing to play end turn
+            if (turn.hand.FetchPlayableCards().Count == 0)
+                EndTurn();
+        });
+    }
+
+    public void LoseChallenge()
+    {
+        // change player state
+        turn.SetCanPlay(false);
+        // due to losing the challenge, a +2 penalty is added
+        drawTotal += 2;
+        // update text of draw total
+        director.uiManager.labelDrawTotal.Show(drawTotal);
+        // update draw total text
+        director.cardAnimator.MoveDrawTotalText(
+            director.uiManager.labelDrawTotal.RectTransform,
+            director.uiManager.GetPlayerCardID(turn).GetDrawCounterPosition()
+        );
+        // show the player state
+        director.uiManager.labelPlayerState.Show("Challenge Lost (+2 penalty)", false, director.uiManager.GetPlayerCardID(turn).GetStateTextPosition());
+        // imposed drawing
+        DrawImposedCards(delegate ()
+        {
+            // hide state text
+            director.uiManager.labelPlayerState.Hide();
+        });
     }
 }
