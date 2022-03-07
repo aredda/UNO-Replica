@@ -383,7 +383,8 @@ MonoBehaviour:
   imageAvatar: {fileID: 3508001325093621947}
   labelUsername: {fileID: 3508001324169401558}
   labelHandCount: {fileID: 3508001323835893027}
-  metaOffset: {x: 175, y: 0}
+  drawCounterOffset: {x: 85, y: 0}
+  stateTextOffset: {x: 0, y: 0}
 --- !u!1 &3508001325093621945
 GameObject:
   m_ObjectHideFlags: 0

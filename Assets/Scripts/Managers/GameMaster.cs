@@ -158,8 +158,8 @@ public class GameMaster
         // If draw-stacking is disabled and drawing is imposed, force him to draw
         else if(!rules.enableDrawStacking && isDrawImposed)
             DrawImposedCards();
-        // If someone else is challenging do nothing
-        else if(rules.enableWildDrawChallenge && rules.enableDrawStacking && isDrawImposed && boardCardTemplate.card is Draw4Card && !turn.IsLocalPlayer())
+        // If the game is online, and if someone else is challenging do nothing
+        else if(isOnline && rules.enableWildDrawChallenge && rules.enableDrawStacking && isDrawImposed && boardCardTemplate.card is Draw4Card && !turn.IsLocalPlayer())
             yield break;
         // If draw stacking is allowed & this player has no playable cards
         else if(rules.enableDrawStacking && isDrawImposed && turn.hand.FetchPlayableCards().Count == 0)
