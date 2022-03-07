@@ -132,6 +132,6 @@ MonoBehaviour:
   parent: {fileID: 0}
   cards: []
   cardTemplates: []
-  zIndex: 0.005
+  zIndex: 0.0075
   references:
     version: 1

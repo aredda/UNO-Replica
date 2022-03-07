@@ -51,7 +51,7 @@ public class AdvancedNetworkManager
                 // send synchronized board card to all clients
                 networkPoint.RpcSetBoardCard(agent.connectionToClient, agent, dealer.boardCard.Serialize());
                 // set player cards
-                networkPoint.RpcSetPlayerUICards(agent);
+                networkPoint.RpcSetPlayerUICards(agent.connectionToClient);
             }
             // deal cards to clients
             StartCoroutine(RoutineDealCardsToAgents(delegate ()

@@ -119,9 +119,7 @@ public class CardTemplate
             else
                 // first, check if draw mode is imposed
                 if(Master.isDrawImposed)
-                {
                     Master.DrawImposedCards();
-                }
                 else
                 {
                     // Last resort card draw
