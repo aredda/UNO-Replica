@@ -12,6 +12,7 @@ public class UIManager
     public UIMenuChallenger menuChallenger;
     public UILabelTotalDraw labelDrawTotal;
     public UILabelPlayerState labelPlayerState;
+    public UIButtonDeclare buttonDeclare;
 
     [Header("Player Card Positions")]
     public UICardPlayerID cardPlayerPrefab;
