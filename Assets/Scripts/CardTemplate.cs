@@ -82,9 +82,6 @@ public class CardTemplate
         if(!isPlayable)
             return;
 
-        // retrieve game master
-        GameMaster master = ManagerDirector.director.gameMaster;
-
         // Show card actions
         System.Action actionPlay = delegate() 
         {
@@ -95,12 +92,14 @@ public class CardTemplate
                 else
                     // Play card functionality
                     hand.PlayCard(this);
+                // hide one card declare button
+                Director.uiManager.buttonDeclare.Hide();
             };
 
             // we need to check if this card is a wild one
             if (card is WildCard)
             {
-                if ((master.isOnline && hand.player.agent.isLocalPlayer) || (!master.isOnline && hand.player.isLocalPlayer))
+                if ((Master.isOnline && hand.player.agent.isLocalPlayer) || (!Master.isOnline && hand.player.isLocalPlayer))
                 {
                     // Change the player's state
                     hand.player.state = PlayerState.DecidingColor;
@@ -128,6 +127,8 @@ public class CardTemplate
                     // now, there's a hole in the logic of this button, because the player can
                     // draw infinitely
                 }
+            // hide one card declare button
+            Director.uiManager.buttonDeclare.Hide();
         };
         System.Action actionChallenge = delegate()
         {

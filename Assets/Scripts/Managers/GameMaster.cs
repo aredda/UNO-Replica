@@ -33,6 +33,10 @@ public class GameMaster
     public bool isDrawImposed = false;
     public int drawTotal = 0;
 
+    [Header("Declare One Card")]
+    public PlayerController playerToDeclare;
+    public bool hasDeclared = false;
+
     public void AddPlayer(PlayerController player)
     {
         players.Add(player);
@@ -130,6 +134,15 @@ public class GameMaster
         director.uiManager.UpdatePlayerCards();
         // Highlight the turn
         director.uiManager.HighlightPlayerCard(turn);
+        // Show declare button
+        if(rules.enableOneCardCall)
+        {
+            if(turn.IsLocalPlayer())
+            {
+                if(turn.hand.CardsCount == 2 && turn.hand.FetchPlayableCards().Count != 0)
+                    director.uiManager.buttonDeclare.Show(turn);
+            }
+        }
     }
 
     public void EndTurn()
@@ -139,6 +152,8 @@ public class GameMaster
 
     IEnumerator RoutineEndTurn()
     {
+        // Hide one card declare button
+        director.uiManager.buttonDeclare.Hide();
         // Pass turn to the next player
         PassTurn(GetNextPlayer(turnStep));
         // Wait
@@ -294,5 +309,16 @@ public class GameMaster
             // hide state text
             director.uiManager.labelPlayerState.Hide();
         });
+    }
+
+    public void SetPlayerToDeclare(PlayerController player, bool declared = false)
+    {
+        playerToDeclare = player;
+        hasDeclared = declared;
+    }
+
+    public void ResetPlayerToDeclare()
+    {
+        SetPlayerToDeclare(null);
     }
 }
