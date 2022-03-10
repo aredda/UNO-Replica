@@ -143,6 +143,11 @@ public class PlayerHand
         // Card Set Animation
         Director.cardAnimator.PlayCard(template, delegate() {
             //// Do Something When Set Card Animation Finishes ////
+            // has the player declared?
+            // if this is a bot, randomly declare
+            if(Master.rules.enableOneCardCall)
+                if(Master.playerToDeclare != player && CardsCount == 2)
+                    Master.SetPlayerToDeclare(player, player.isBot ? (Random.Range(0, 10) > 5 ? true : false) : false);
             // activate card effect
             template.card.Activate(template);
             // Change Board Card

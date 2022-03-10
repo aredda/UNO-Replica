@@ -125,7 +125,7 @@ public class GameMaster
         previousTurn = turn;
         turn = player;
         // Revoke the ability to play from all players
-        foreach(var p in players)
+        foreach (var p in players)
             if(p != player)
                 p.SetCanPlay(false);
         // Grant the ability to play to the current turn
@@ -135,7 +135,7 @@ public class GameMaster
         // Highlight the turn
         director.uiManager.HighlightPlayerCard(turn);
         // Show declare button
-        if(rules.enableOneCardCall)
+        if (rules.enableOneCardCall)
         {
             if(turn.IsLocalPlayer())
             {
@@ -154,6 +154,25 @@ public class GameMaster
     {
         // Hide one card declare button
         director.uiManager.buttonDeclare.Hide();
+        // catch someone when not declaring one card
+        // bot section
+        PlayerController currentTurn = GetNextPlayer(turnStep);
+        if (rules.enableOneCardCall)
+            if (currentTurn.isBot)
+                if (playerToDeclare && currentTurn != playerToDeclare && !hasDeclared)
+                {
+                    // show label
+                    director.uiManager.labelPlayerState.Show($"Did not declare UNO (+2)", false, director.uiManager.GetPlayerCardID(playerToDeclare).RectTransform.anchoredPosition);
+                    // if the player is caught, make him draw 2 cards
+                    director.deckDealer.DealCards(playerToDeclare, 2, delegate ()
+                    {
+                        director.uiManager.labelPlayerState.Hide();
+                    });
+                    // reset declaration
+                    ResetPlayerToDeclare();
+                    // wait a little
+                    yield return new WaitForSeconds(1f);
+                }
         // Pass turn to the next player
         PassTurn(GetNextPlayer(turnStep));
         // Wait

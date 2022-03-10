@@ -19,11 +19,11 @@ public class UILabelPlayerState
         textState.text = text;
         textState.color = success ? colorSuccess : colorFailure;
 
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
