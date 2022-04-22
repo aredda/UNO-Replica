@@ -89,6 +89,16 @@ public class PlayerController
         return isLocalPlayer;
     }
 
+    public bool HasPlayableCards()
+    {
+        return hand.FetchPlayableCards().Count != 0;
+    }
+
+    public bool HasNoPlayableCards()
+    {
+        return !HasPlayableCards();
+    }
+
     public void DebugShowHand()
     {
         Debug.Log(string.Join(" | ", hand.cards));

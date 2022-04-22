@@ -25,7 +25,7 @@ public class DeckController
         // Deal card to the player
         Director.deckDealer.DealCard(Master.turn, delegate() {
             // Update the playable cards
-            int playableCardsCount = Master.turn.hand.FetchPlayableCards().Count;
+            Master.turn.hand.FetchPlayableCards();
             // End turn if quick play is disabled
             if(!Master.rules.enableDrawQuickPlay)
                 Master.EndTurn();

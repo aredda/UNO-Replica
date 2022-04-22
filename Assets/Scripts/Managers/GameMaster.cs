@@ -110,7 +110,7 @@ public class GameMaster
             else
             {
                 // If the player still has no playable cards end turn
-                if(player.hand.FetchPlayableCards().Count == 0)
+                if(player.HasNoPlayableCards())
                     EndTurn();
                 // if it's a bot, then let it decide
                 else if(player.isBot)
@@ -134,15 +134,11 @@ public class GameMaster
         director.uiManager.UpdatePlayerCards();
         // Highlight the turn
         director.uiManager.HighlightPlayerCard(turn);
-        // Show declare button
+        // Show declare button (one card call button)
         if (rules.enableOneCardCall)
-        {
             if(turn.IsLocalPlayer())
-            {
-                if(turn.hand.CardsCount == 2 && turn.hand.FetchPlayableCards().Count != 0)
+                if(turn.hand.CardsCount == 2 && turn.HasPlayableCards())
                     director.uiManager.buttonDeclare.Show(turn);
-            }
-        }
     }
 
     public void EndTurn()
@@ -184,7 +180,7 @@ public class GameMaster
         // and if the last played card is a draw 4 card
         // and if there are no playable cards
         // and if the player is the local one
-        if(rules.enableWildDrawChallenge && isDrawImposed && boardCardTemplate.card is Draw4Card && turn.hand.FetchPlayableCards().Count == 0 && turn.IsLocalPlayer())
+        if(rules.enableWildDrawChallenge && isDrawImposed && boardCardTemplate.card is Draw4Card && turn.HasNoPlayableCards() && turn.IsLocalPlayer())
         {
             // show him the challenge menu
             director.uiManager.menuChallenger.Show();
@@ -196,12 +192,12 @@ public class GameMaster
         else if(isOnline && rules.enableWildDrawChallenge && rules.enableDrawStacking && isDrawImposed && boardCardTemplate.card is Draw4Card && !turn.IsLocalPlayer())
             yield break;
         // If draw stacking is allowed & this player has no playable cards
-        else if(rules.enableDrawStacking && isDrawImposed && turn.hand.FetchPlayableCards().Count == 0)
+        else if(rules.enableDrawStacking && isDrawImposed && turn.HasNoPlayableCards())
             DrawImposedCards();
         else
         {
             // If there are no playable cards, the player should draw
-            if (turn.hand.FetchPlayableCards().Count == 0)
+            if (turn.HasNoPlayableCards())
             {
                 // Resort draw
                 LastResortDraw(turn);
@@ -302,7 +298,7 @@ public class GameMaster
             // when cards are dealt, return the ability to play
             turn.SetCanPlay();
             // if there is nothing to play end turn
-            if (turn.hand.FetchPlayableCards().Count == 0)
+            if (turn.HasNoPlayableCards())
                 EndTurn();
         });
     }
