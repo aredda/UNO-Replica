@@ -10,25 +10,35 @@ public class UIManager
     public UIMenuColorPicker menuColorPicker;
     public UIMenuCardActionPicker menuCardActionPicker;
     public UIMenuChallenger menuChallenger;
+    public UIMenuGameOver menuGameOver;
     public UILabelTotalDraw labelDrawTotal;
     public UILabelPlayerState labelPlayerState;
-    public RectTransform cardListPlayerIDs;
-    public List<UICardPlayerID> cardPlayerIDs;
+    public UIButtonDeclare buttonDeclare;
+
+    [Header("Player Card Positions")]
+    public UICardPlayerID cardPlayerPrefab;
+    public Transform cardParent;
+    public List<UIPlayerCardDisposition> cardDispositions;
+
+    private List<UICardPlayerID> cardPlayerIDs;
 
     public void PreparePlayerCards(List<PlayerController> players)
     {
-        this.cardPlayerIDs = new List<UICardPlayerID> ();
-
+        // initialise list
+        cardPlayerIDs = new List<UICardPlayerID> ();
+        // retrieve correct disposition for this case
+        UIPlayerCardDisposition disposition = cardDispositions.Single(cd => cd.cardPositions.Count == director.gameMaster.players.Count);
+        // set player cards
         for (int i = 0; i < players.Count; i++)
         {
-            Transform cardTransform = cardListPlayerIDs.GetChild(i);
-            UICardPlayerID card = cardTransform.GetComponent<UICardPlayerID>();
+            UICardPlayerID card = Instantiate(cardPlayerPrefab, cardParent);
             card.SetPlayer(players[i]);
             card.UpdateUsername();
             card.UpdateHandCount();
             card.gameObject.SetActive(true);
+            card.RectTransform.anchoredPosition = disposition.cardPositions[i];
 
-            this.cardPlayerIDs.Add(card);
+            cardPlayerIDs.Add(card);
         }
     }
 

@@ -134,7 +134,13 @@ public class CardTemplateAnimator
 
     public void DrawCard(CardTemplate template, Vector3 cardPosition, Vector3 parentRotation, System.Action onFinish)
     {
-        StartCoroutine(RoutineDrawCard(template, cardPosition, parentRotation, onFinish));
+        IEnumerator routine = RoutineDrawCard(template, cardPosition, parentRotation, onFinish);
+        // stop previous routines on this template
+        StopAllRoutines("drawCard", template.gameObject);
+        // add routine to pool
+        AddRoutine("drawCard", template.gameObject, routine);
+        // start it
+        StartCoroutine(routine);
     }
 
     IEnumerator RoutineDrawCard(CardTemplate template, Vector3 handPosition, Vector3 parentRotation, System.Action onFinish)

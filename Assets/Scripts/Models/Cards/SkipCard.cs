@@ -1,6 +1,7 @@
 using System;
 
-public class SkipCard 
+[Serializable]
+public class SkipCard
     : EffectCard
 {
     public override string GetMaterialName()

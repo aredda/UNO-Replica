@@ -13,8 +13,8 @@ public class DeckController
         // Check if there's auto draw
         if(Master.rules.enableAutoDraw)
             return;
-        // Check if it's the player
-        if(!Master.turn.isLocalPlayer)
+        // Check if it's the local player
+        if(!Master.turn.IsLocalPlayer())
             return;
         // Check if he can play
         if(!Master.turn.CanPlay())
@@ -25,7 +25,7 @@ public class DeckController
         // Deal card to the player
         Director.deckDealer.DealCard(Master.turn, delegate() {
             // Update the playable cards
-            int playableCardsCount = Master.turn.hand.FetchPlayableCards().Count;
+            Master.turn.hand.FetchPlayableCards();
             // End turn if quick play is disabled
             if(!Master.rules.enableDrawQuickPlay)
                 Master.EndTurn();

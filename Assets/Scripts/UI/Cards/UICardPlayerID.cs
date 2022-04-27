@@ -25,12 +25,14 @@ public class UICardPlayerID
 
     public void UpdateUsername()
     {
-        
+        // TODO: must be refactored
+        if(Master.isOnline)
+            labelUsername.text = $"Player {playerController.agent.netId}";
     }
 
     public void UpdateHandCount()
     {
-        this.labelHandCount.text = $"{this.playerController.hand.cards.Count} cards";
+        labelHandCount.text = $"{playerController.hand.CardsCount} cards";
     }
 
     public bool Concerns(PlayerController player)

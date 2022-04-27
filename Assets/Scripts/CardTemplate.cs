@@ -85,30 +85,50 @@ public class CardTemplate
         // Show card actions
         System.Action actionPlay = delegate() 
         {
-            // Activate the card's effect
-            this.card.Activate(this, delegate()
+            System.Action actionPlayStep = delegate () {
+                // if online call the command instead
+                if (Master.isOnline)
+                    hand.player.agent.CmdPlayCard(card.Serialize());
+                else
+                    // Play card functionality
+                    hand.PlayCard(this);
+                // hide one card declare button
+                Director.uiManager.buttonDeclare.Hide();
+            };
+
+            // we need to check if this card is a wild one
+            if (card is WildCard)
             {
-                // Animate setting the card
-                this.hand.PlayCard(this);
-                // TODO: remove (temporary, for test purpose)
-                this.hand.player.state = PlayerState.Ready;
-            });
+                if ((Master.isOnline && hand.player.agent.isLocalPlayer) || (!Master.isOnline && hand.player.isLocalPlayer))
+                {
+                    // Change the player's state
+                    hand.player.state = PlayerState.DecidingColor;
+                    // Show menu
+                    ManagerDirector.director.uiManager.menuColorPicker.Show(this, actionPlayStep);
+                }
+            }
+            else
+                actionPlayStep.Invoke();
         };
         System.Action actionDrawCard = delegate() 
         {
-            // first, check if draw mode is imposed
-            if(Master.isDrawImposed)
-            {
-                Master.DrawImposedCards();
-            }
+            // if it's online game
+            if (Master.isOnline)
+                hand.player.agent.CmdDrawCard();
             else
-            {
-                // Last resorrd card draw
-                Master.LastResortDraw(hand.player);
-                // TODO: the player can only call for one last resort draw
-                // now, there's a hole in the logic of this button, because the player can
-                // draw infinitely
-            }
+                // first, check if draw mode is imposed
+                if(Master.isDrawImposed)
+                    Master.DrawImposedCards();
+                else
+                {
+                    // Last resort card draw
+                    Master.LastResortDraw(hand.player);
+                    // TODO: the player can only call for one last resort draw
+                    // now, there's a hole in the logic of this button, because the player can
+                    // draw infinitely
+                }
+            // hide one card declare button
+            Director.uiManager.buttonDeclare.Hide();
         };
         System.Action actionChallenge = delegate()
         {
