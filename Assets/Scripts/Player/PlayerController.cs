@@ -99,6 +99,11 @@ public class PlayerController
         return !HasPlayableCards();
     }
 
+    public bool HasNoCards()
+    {
+        return hand.CardsCount == 0;
+    }
+
     public void DebugShowHand()
     {
         Debug.Log(string.Join(" | ", hand.cards));

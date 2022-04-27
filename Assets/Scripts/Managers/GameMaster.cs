@@ -10,6 +10,10 @@ public class GameMaster
     public bool isOnline = false;
     public GameRule rules = new GameRule();
 
+    [Header("Game State")]
+    public GameState gameState = GameState.Null;
+    public PlayerController winner;
+
     [Header("Hand Positions")]
     public List<HandDisposition> handCases;
 
@@ -125,9 +129,7 @@ public class GameMaster
         previousTurn = turn;
         turn = player;
         // Revoke the ability to play from all players
-        foreach (var p in players)
-            if(p != player)
-                p.SetCanPlay(false);
+        players.Where(p => !p.Equals(player)).ToList().ForEach(p => p.SetCanPlay(false));
         // Grant the ability to play to the current turn
         player.SetCanPlay();
         // Update hand count
@@ -143,6 +145,9 @@ public class GameMaster
 
     public void EndTurn()
     {
+        if (gameState == GameState.Over)
+            return;
+
         StartCoroutine(RoutineEndTurn());
     }
 
@@ -169,6 +174,34 @@ public class GameMaster
                     // wait a little
                     yield return new WaitForSeconds(1f);
                 }
+        // Winning checking
+        if(turn.HasNoCards())
+        {
+            // Declare as the winner
+            winner = turn;
+            // Change game state
+            ChangeGameState(GameState.Over);
+            // Revoke the ability to play for all players
+            players.ForEach(p => p.SetCanPlay(false));
+            // If there's drawing, make sure the player draws
+            if (isDrawImposed)
+            {
+                // deliver the turn to the next player
+                turn = GetNextPlayer();
+                // make him draw
+                DrawImposedCards(delegate () {
+                    // Show game over menu
+                    director.uiManager.menuGameOver.Show(winner.IsLocalPlayer());
+                });
+            }
+            else
+            {
+                // Show game over menu
+                director.uiManager.menuGameOver.Show(winner.IsLocalPlayer());
+            }
+
+            yield break;
+        }
         // Pass turn to the next player
         PassTurn(GetNextPlayer(turnStep));
         // Wait
@@ -335,5 +368,10 @@ public class GameMaster
     public void ResetPlayerToDeclare()
     {
         SetPlayerToDeclare(null);
+    }
+
+    public void ChangeGameState(GameState state)
+    {
+        gameState = state;
     }
 }
