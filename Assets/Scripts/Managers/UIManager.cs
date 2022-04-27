@@ -10,6 +10,7 @@ public class UIManager
     public UIMenuColorPicker menuColorPicker;
     public UIMenuCardActionPicker menuCardActionPicker;
     public UIMenuChallenger menuChallenger;
+    public UIMenuGameOver menuGameOver;
     public UILabelTotalDraw labelDrawTotal;
     public UILabelPlayerState labelPlayerState;
     public UIButtonDeclare buttonDeclare;

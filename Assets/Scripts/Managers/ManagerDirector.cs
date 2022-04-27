@@ -52,6 +52,9 @@ public class ManagerDirector
 
         // Display the board card
         gameMaster.DisplayBoardCard();
+
+        // Change game state
+        gameMaster.ChangeGameState(GameState.Started);
         
         // Deal Cards, the action will be called everytime a player finished being dealed with
         // Call Counter purpose is to ensure that this action is called when all the players have cards in their hands
