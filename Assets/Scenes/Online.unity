@@ -2332,7 +2332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   director: {fileID: 0}
-  isOnline: 1
+  isOnline: 0
   rules:
     enableDrawStacking: 1
     enableSkipStacking: 0
