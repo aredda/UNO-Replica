@@ -1779,7 +1779,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 985421024}
-  networkAddress: localhost
+  networkAddress: 35.203.88.52
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 3370504715013300624, guid: 821f8d2a6462898419cb3af10171ae81,
@@ -2332,7 +2332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   director: {fileID: 0}
-  isOnline: 0
+  isOnline: 1
   rules:
     enableDrawStacking: 1
     enableSkipStacking: 0

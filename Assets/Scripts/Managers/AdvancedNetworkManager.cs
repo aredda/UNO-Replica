@@ -15,6 +15,13 @@ public class AdvancedNetworkManager
 
     public List<PlayerNetworkAgent> playerAgents;
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        Debug.Log("Server is started");
+    }
+
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
