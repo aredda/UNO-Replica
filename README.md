@@ -1,2 +1,2 @@
 # UNO Replica
-A multiplayer online card game
+A multiplayer online card game.
