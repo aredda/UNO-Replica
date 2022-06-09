@@ -51,6 +51,12 @@ public class NetworkPoint
     }
 
     [ClientRpc]
+    public void ClientRpcUpdateDeck(List<byte[]> cardBytesList)
+    {
+        director.deckDealer.UpdateDeck(cardBytesList);
+    }
+
+    [ClientRpc]
     public void RpcSetInitialTurn(PlayerNetworkAgent turnAgent)
     {
         director.networkPoint.currentTurn = turnAgent;

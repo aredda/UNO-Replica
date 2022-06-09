@@ -79,16 +79,18 @@ public class AdvancedNetworkManager
         foreach (var agent in playerAgents)
         {
             for (int i = 0; i < dealer.startingHand; i++)
-            {
                 // add card to hand
                 agent.RpcAddCardToHand(dealer.Dequeue().Serialize());
-            }
-            // send synchronized deck to all clients' deck dealers
-            networkPoint.RpcUpdateDeck(agent.connectionToClient, agent, dealer.GetDeckBytesList());
-
             yield return new WaitForSeconds(0.5f);
         }
+        // send synchronized deck to all clients' deck dealers
+        networkPoint.ClientRpcUpdateDeck(dealer.GetDeckBytesList());
 
         onFinish.Invoke();
+    }
+
+    public void ConnectToServer()
+    {
+        StartClient();
     }
 }
