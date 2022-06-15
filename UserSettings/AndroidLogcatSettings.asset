@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "R58M83HAPVZ",
     "m_SelectedPackage": {
-        "deviceId": "9be1d8e6",
+        "deviceId": "R58M83HAPVZ",
         "name": "com.AreddasJams.JG",
-        "processId": 13096,
+        "processId": 26252,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -54,6 +54,30 @@
             "deviceId": "9be1d8e6",
             "name": "com.AreddasJams.JG",
             "processId": 13096,
+            "exited": false
+        },
+        {
+            "deviceId": "R58M83HAPVZ",
+            "name": "com.AreddasJams.JG",
+            "processId": 18638,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M83HAPVZ",
+            "name": "com.AreddasJams.JG",
+            "processId": 20404,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M83HAPVZ",
+            "name": "com.AreddasJams.JG",
+            "processId": 24916,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M83HAPVZ",
+            "name": "com.AreddasJams.JG",
+            "processId": 26252,
             "exited": false
         }
     ],

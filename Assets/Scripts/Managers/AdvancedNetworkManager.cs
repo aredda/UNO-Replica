@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 public class AdvancedNetworkManager 
     : NetworkManager
@@ -92,5 +93,16 @@ public class AdvancedNetworkManager
     public void ConnectToServer()
     {
         StartClient();
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        base.OnServerDisconnect(conn);
+
+        // TODO: fix this temporary patchwork
+        foreach (PlayerNetworkAgent agent in FindObjectsOfType<PlayerNetworkAgent>())
+            Destroy(agent);
+
+        playerAgents = new List<PlayerNetworkAgent>();
     }
 }

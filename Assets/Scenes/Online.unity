@@ -1694,8 +1694,8 @@ GameObject:
   m_Component:
   - component: {fileID: 985421022}
   - component: {fileID: 985421025}
-  - component: {fileID: 985421024}
   - component: {fileID: 985421023}
+  - component: {fileID: 985421024}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -1779,7 +1779,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 985421024}
-  networkAddress: 35.203.88.52
+  networkAddress: 44.204.8.182
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 3370504715013300624, guid: 821f8d2a6462898419cb3af10171ae81,
@@ -1861,7 +1861,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Connect to Server
+  m_Text: Connect
 --- !u!222 &1030436157
 CanvasRenderer:
   m_ObjectHideFlags: 0
